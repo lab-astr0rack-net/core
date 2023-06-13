@@ -8,7 +8,7 @@ services:
     environment:
       POSTGRES_USER: terraform
       POSTGRES_DB: terraform
-      POSTGRES_PASSWORD: "{{ postgres_password }}"
+      POSTGRES_PASSWORD: {{ postgres_password }}
     volumes:
       - "postgres_data_vol:/var/lib/postgresql/data"
     ports:
