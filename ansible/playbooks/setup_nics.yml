@@ -1,0 +1,19 @@
+- hosts: all
+  name: Configure nics
+  tags: [ always ]
+  become: true
+  tasks:
+    - name: Install nic file
+      template:
+        src: nics.conf
+        dest: /etc/network/interfaces
+        mode: '0644'
+      vars:
+        proxmox_ip: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+        proxmox_gateway: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['gateway'] }}"
+
+    - name: Restart networking
+      ansible.builtin.systemd:
+        name: networking.service
+        state: restarted
+
