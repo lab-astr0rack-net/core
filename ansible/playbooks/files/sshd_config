@@ -1,0 +1,25 @@
+# sshd config file permitting only astr0n8t to login via pubkey
+PermitRootLogin no
+
+PubkeyAuthentication no
+PasswordAuthentication no
+ChallengeResponseAuthentication no
+UsePAM yes
+AllowAgentForwarding no
+AllowTcpForwarding no
+GatewayPorts no
+X11Forwarding no
+
+# Allow client to pass locale environment variables
+AcceptEnv LANG LC_*
+
+# override default of no subsystems
+Subsystem sftp  /usr/lib/openssh/sftp-server
+
+# Example of overriding settings on a per-user basis
+Match User astr0n8t
+    PubkeyAuthentication yes
+
+# Example of overriding settings on a per-user basis
+Match User ansible
+    PubkeyAuthentication yes

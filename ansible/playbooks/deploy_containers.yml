@@ -1,0 +1,81 @@
+- hosts: all
+  name: Create watchtower containers
+  tags: [ always ]
+  become: true
+  tasks:
+    - name: Create watchtower etc directory
+      file:
+        path: /etc/watchtower
+        state: directory
+        mode: '0755'
+
+    - name: Create watchtower configuration directory
+      file:
+        path: /etc/compose/watchtower
+        state: directory
+        mode: '0755'
+
+    - name: Copy the compose file
+      template:
+        src: watchtower.yaml
+        dest: /etc/compose/watchtower/docker-compose.yaml
+        mode: 0600
+      vars:
+        watchtower_webhook_url: "{{ lookup('community.general.bitwarden', 'ansible-proxmox-watchtower-webhook', field='password')[0] }}"
+
+- hosts: all
+  name: Create reverse proxy containers
+  tags: [ always ]
+  become: true
+  tasks:
+    - name: Create caddy data volume
+      community.docker.docker_volume:
+        name: caddy_data_vol
+
+    - name: Create caddy configuration directory
+      file:
+        path: /etc/compose/caddy
+        state: directory
+        mode: '0755'
+
+    - name: Copy the compose file
+      template:
+        src: caddy.yaml
+        dest: /etc/compose/caddy/docker-compose.yaml
+        mode: '0600'
+      vars:
+        cloudflare_api_token: "{{ lookup('community.general.bitwarden', 'ansible-proxmox-cloudflare-api', field='password')[0] }}"
+        proxmox_ip: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+
+    - name: Create caddy configuration directory
+      file:
+        path: /etc/caddy
+        state: directory
+        mode: '0755'
+
+    - name: Copy the Caddyfile
+      copy:
+        src: Caddyfile
+        dest: /etc/caddy/Caddyfile
+
+    - name: Configure pveproxy
+      ansible.builtin.blockinfile:
+        path: /etc/default/pveproxy
+        block: |
+          ALLOW_FROM="172.16.0.0/12"
+          DENY_FROM="all"
+          POLICY="allow"
+
+    - name: Restart pveproxy
+      ansible.builtin.systemd:
+        name: pveproxy.service
+        state: restarted
+
+
+    - name: Start caddy
+      community.docker.docker_compose:
+        project_src: /etc/compose/caddy
+
+    - name: Start watchtower
+      community.docker.docker_compose:
+        project_src: /etc/compose/watchtower

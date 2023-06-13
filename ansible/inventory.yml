@@ -1,0 +1,5 @@
+all:
+  hosts:
+    proxmox:
+      ansible_user: astr0n8t
+      ansible_host: proxmox.lab.astr0rack.net
