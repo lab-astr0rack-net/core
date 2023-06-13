@@ -1,0 +1,5 @@
+---
+- import_playbook: playbooks/general_setup.yml
+- import_playbook: playbooks/deploy_containers.yml
+- import_playbook: playbooks/secure_boot.yml
+- import_playbook: playbooks/setup_nics.yml
