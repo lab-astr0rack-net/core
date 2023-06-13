@@ -1,0 +1,25 @@
+version: '3.4'
+
+services:
+  caddy:
+    container_name: caddy
+    image: ghcr.io/astr0n8t/caddy-cloudflare:latest
+    restart: unless-stopped
+    environment:
+      DOMAIN: "lab.astr0rack.net"
+      EMAIL: "contact@nathanhigley.com"
+      CF_API_TOKEN: "{{ cloudflare_api_token }}"
+      PROXMOX_IP: "{{ proxmox_ip }}"
+    volumes:
+      - "/etc/caddy/Caddyfile:/etc/caddy/Caddyfile:ro"
+      - "caddy_config:/config"
+      - "caddy_data_vol:/data"
+    ports:
+      - "80:80"
+      - "443:443"
+
+volumes:
+  caddy_config:
+  caddy_data_vol:
+    external: true
+
