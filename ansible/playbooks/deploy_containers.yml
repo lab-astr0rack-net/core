@@ -46,10 +46,6 @@
       vars:
         postgres_password: "{{ lookup('community.general.bitwarden', 'ansible-proxmox-postgres-password', field='password')[0] }}"
 
-    - name: Start postgres
-      community.docker.docker_compose:
-        project_src: /etc/compose/postgres
-
 - hosts: all
   name: Create reverse proxy containers
   tags: [ always ]
@@ -97,6 +93,10 @@
     - name: Start caddy
       community.docker.docker_compose:
         project_src: /etc/compose/caddy
+
+    - name: Start postgres
+      community.docker.docker_compose:
+        project_src: /etc/compose/postgres
 
     - name: Start watchtower
       community.docker.docker_compose:
