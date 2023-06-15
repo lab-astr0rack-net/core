@@ -1,10 +1,17 @@
 version: '3.4'
 
 services:
+  init-caddy:
+    image: docker.io/library/alpine:latest
+    command: chown -R 999:999 /data /config
+    volumes:
+      - "caddy_config:/config"
+      - "caddy_data_vol:/data"
   caddy:
     container_name: caddy
     image: ghcr.io/astr0n8t/caddy-cloudflare:latest
     restart: unless-stopped
+    user: 999:999
     environment:
       DOMAIN: "lab.astr0rack.net"
       EMAIL: "contact@nathanhigley.com"
@@ -17,6 +24,8 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    depends_on:
+      - init-caddy
 
 volumes:
   caddy_config:

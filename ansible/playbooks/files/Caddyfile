@@ -31,3 +31,13 @@ proxmox.{$DOMAIN} {
        }
   }
 }
+# Just TLS
+postgres.{$DOMAIN} {
+  log {
+    level INFO
+  }
+  # Uncomment this if you want to get a cert via ACME (Let's Encrypt or ZeroSSL).
+  tls {
+    dns cloudflare {env.CF_API_TOKEN}
+  }
+}
