@@ -6,5 +6,4 @@ then
 fi
 
 export PG_CONN_STR=$(bw get password terraform-proxmox-postgres)
-export PM_USER=$(bw get username terraform-proxmox-credentials)
-export PM_PASS=$(bw get password terraform-proxmox-credentials)
+export TF_VAR_pm_password=$(bw get password terraform-proxmox-credentials)
