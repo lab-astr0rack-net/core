@@ -15,3 +15,5 @@ setup-terraform:
 
 vyos:
 	ansible-playbook vyos.yml -i inventory.yml
+vyos-dns:
+	ansible-playbook playbooks/vyos/dns_setup.yml -i inventory.yml
