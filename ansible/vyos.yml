@@ -1,2 +1,3 @@
 ---
 - import_playbook: playbooks/vyos/general_setup.yml
+- import_playbook: playbooks/vyos/dns_setup.yml
