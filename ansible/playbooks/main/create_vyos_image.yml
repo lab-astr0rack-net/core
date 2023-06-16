@@ -1,4 +1,4 @@
-- hosts: all
+- hosts: proxmox
   name: Create VyOS image
   tags: [ always ]
   become: true

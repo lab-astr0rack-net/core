@@ -3,3 +3,9 @@ all:
     proxmox:
       ansible_user: astr0n8t
       ansible_host: proxmox.lab.astr0rack.net
+    vyos:
+      ansible_user: vyos
+      ansible_host: vyos.lab.astr0rack.net
+      ansible_connection: network_cli
+      ansible_network_os: vyos
+      ansible_python_interpreter: /usr/bin/python3

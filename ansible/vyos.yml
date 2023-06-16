@@ -1,0 +1,2 @@
+---
+- import_playbook: playbooks/vyos/general_setup.yml

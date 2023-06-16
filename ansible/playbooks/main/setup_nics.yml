@@ -1,4 +1,4 @@
-- hosts: all
+- hosts: proxmox
   name: Configure nics
   tags: [ always ]
   become: true

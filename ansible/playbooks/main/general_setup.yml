@@ -1,4 +1,4 @@
-- hosts: all
+- hosts: proxmox
   name: Perform Initial Setup and Hardening
   tags: [ always ]
   become: true
