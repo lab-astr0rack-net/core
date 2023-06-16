@@ -1,8 +1,9 @@
 resource "proxmox_vm_qemu" "vyos-core" {
-  name        = "vyos-core"
-  desc        = "VyOS Core Router"
-  qemu_os     = "l26"
-  bios        = "ovmf"
+  name    = "vyos-core"
+  desc    = "VyOS Core Router"
+  qemu_os = "l26"
+  bios    = "ovmf"
+  vmid    = 100
   # Need to specify ide2 so the VM can see cloudinit CD
   boot        = "order=scsi0;ide2"
   target_node = var.pm_node
@@ -18,8 +19,9 @@ resource "proxmox_vm_qemu" "vyos-core" {
   scsihw     = "virtio-scsi-single"
 
   network {
-    bridge = "vmbr0"
-    model  = "e1000"
+    bridge  = "vmbr0"
+    model   = "e1000"
+    macaddr = "92:07:2B:55:57:C8"
   }
   lifecycle {
     ignore_changes = [

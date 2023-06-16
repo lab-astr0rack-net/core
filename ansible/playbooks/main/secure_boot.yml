@@ -1,4 +1,4 @@
-- hosts: all
+- hosts: proxmox
   name: Perform Secure Boot Setup
   tags: [ always ]
   become: true

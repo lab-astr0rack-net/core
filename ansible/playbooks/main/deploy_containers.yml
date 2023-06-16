@@ -1,4 +1,4 @@
-- hosts: all
+- hosts: proxmox
   name: Create watchtower containers
   tags: [ always ]
   become: true
@@ -23,7 +23,7 @@
       vars:
         watchtower_webhook_url: "{{ lookup('community.general.bitwarden', 'ansible-proxmox-watchtower-webhook', field='password')[0] }}"
 
-- hosts: all
+- hosts: proxmox
   name: Create postgresql container
   tags: [ always ]
   become: true
@@ -46,7 +46,7 @@
       vars:
         postgres_password: "{{ lookup('community.general.bitwarden', 'ansible-proxmox-postgres-password', field='password')[0] }}"
 
-- hosts: all
+- hosts: proxmox
   name: Create reverse proxy containers
   tags: [ always ]
   become: true
