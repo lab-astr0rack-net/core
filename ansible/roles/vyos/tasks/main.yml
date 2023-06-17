@@ -1,0 +1,66 @@
+---
+- name: Apply general setup and hardening
+  include_tasks: 
+    file: general_setup.yml
+    apply:
+      tags:
+        - setup
+  tags:
+    - setup
+- name: Configure DNS Setup
+  include_tasks: 
+    file: dns_setup.yml
+    apply:
+      tags:
+        - dns
+  tags:
+    - dns
+- name: Configure Tailscale
+  include_tasks: 
+    file: tailscale_setup.yml
+    apply:
+      tags:
+        - tailscale
+  tags:
+    - tailscale
+- name: Configure Interfaces
+  include_tasks: 
+    file: interfaces.yml
+    apply:
+      tags:
+        - interfaces
+  tags:
+    - interfaces
+- name: Configure DHCP
+  include_tasks: 
+    file: dhcp.yml
+    apply:
+      tags:
+        - dhcp
+  tags:
+    - dhcp
+- name: Configure Outbound NAT
+  include_tasks: 
+    file: nat.yml
+    apply:
+      tags:
+        - nat
+  tags:
+    - nat
+- name: Configure Firewall
+  include_tasks: 
+    file: firewall.yml
+    apply:
+      tags:
+        - firewall
+  tags:
+    - firewall
+- name: Save Configuration
+  include_tasks: 
+    file: save.yml
+    apply:
+      tags:
+        - always
+  tags:
+    - always
+

@@ -1,0 +1,23 @@
+{% for policy in fw_policies['ipv6'] %}
+{% for rule in policy['rules'] %}
+{% if rule['source_groups'] is defined %}
+set firewall ipv6-name {{ policy['name'] }} rule {{ loop.index }} source group address-group {{ rule['source_groups'] }}
+{% endif %}
+{% if rule['dest_groups'] is defined %}
+set firewall ipv6-name {{ policy['name'] }} rule {{ loop.index }} destination group address-group {{ rule['dest_groups'] }}
+{% endif %}
+{% if rule['protocol'] is defined %}
+set firewall ipv6-name {{ policy['name'] }} rule {{ loop.index }} protocol {{ rule['protocol'] }}
+{% endif %}
+{% if rule['port'] is defined %}
+set firewall ipv6-name {{ policy['name'] }} rule {{ loop.index }} destination port {{ rule['port'] }}
+{% endif %}
+{% if rule['state'] is defined %}
+set firewall ipv6-name {{ policy['name'] }} rule {{ loop.index }} state {{ rule['state'] }} {{ rule['action'] }}
+{% endif %}
+{% if rule['action'] is defined %}
+set firewall ipv6-name {{ policy['name'] }} rule {{ loop.index }} action {{ rule['action'] }}
+{% endif %}
+{% endfor %}
+set firewall zone {{ policy['zones']['to'] }} from {{ policy['zones']['from'] }} firewall ipv6-name {{ policy['name'] }}
+{% endfor %}

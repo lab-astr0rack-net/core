@@ -1,0 +1,83 @@
+---
+- name: Create watchtower etc directory
+  file:
+    path: /etc/watchtower
+    state: directory
+    mode: '0755'
+
+- name: Create watchtower configuration directory
+  file:
+    path: /etc/compose/watchtower
+    state: directory
+    mode: '0755'
+
+- name: Copy the compose file
+  template:
+    src: watchtower.yaml
+    dest: /etc/compose/watchtower/docker-compose.yaml
+    mode: 0600
+
+- name: Create postgres data volume
+  community.docker.docker_volume:
+    name: postgres_data_vol
+
+- name: Create postgres configuration directory
+  file:
+    path: /etc/compose/postgres
+    state: directory
+    mode: '0755'
+
+- name: Copy the compose file
+  template:
+    src: postgres.yaml
+    dest: /etc/compose/postgres/docker-compose.yaml
+    mode: '0600'
+
+- name: Create caddy data volume
+  community.docker.docker_volume:
+    name: caddy_data_vol
+
+- name: Create caddy configuration directory
+  file:
+    path: /etc/compose/caddy
+    state: directory
+    mode: '0755'
+
+- name: Copy the compose file
+  template:
+    src: caddy.yaml
+    dest: /etc/compose/caddy/docker-compose.yaml
+    mode: '0600'
+
+- name: Create caddy configuration directory
+  file:
+    path: /etc/caddy
+    state: directory
+    mode: '0755'
+
+- name: Copy the Caddyfile
+  copy:
+    src: Caddyfile
+    dest: /etc/caddy/Caddyfile
+
+- name: Configure pveproxy
+  ansible.builtin.blockinfile:
+    path: /etc/default/pveproxy
+    block: |
+      ALLOW_FROM="172.16.0.0/12"
+      DENY_FROM="all"
+      POLICY="allow"
+  notify: Restart pveproxy
+
+- name: Start caddy
+  community.docker.docker_compose:
+    project_src: /etc/compose/caddy
+
+- name: Start postgres
+  community.docker.docker_compose:
+    project_src: /etc/compose/postgres
+
+- name: Start watchtower
+  community.docker.docker_compose:
+    project_src: /etc/compose/watchtower
+
