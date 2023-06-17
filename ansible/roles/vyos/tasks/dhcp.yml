@@ -1,0 +1,20 @@
+---
+- name: configure DHCP
+  vyos.vyos.vyos_config:
+    lines:
+      - "set service dhcp-server shared-network-name {{ item.desc }} subnet {{ item.dhcp.subnet }} default-router '{{ item.dhcp.gw }}'"
+      - "set service dhcp-server shared-network-name {{ item.desc }} subnet {{ item.dhcp.subnet }} name-server '{{ item.dhcp.dns }}'"
+      - "set service dhcp-server shared-network-name {{ item.desc }} subnet {{ item.dhcp.subnet }} domain-name '{{ item.dhcp.domain_name }}'"
+      - "set service dhcp-server shared-network-name {{ item.desc }} subnet {{ item.dhcp.subnet }} domain-search '{{ item.dhcp.domain_name }}'"
+      - "set service dhcp-server shared-network-name {{ item.desc }} subnet {{ item.dhcp.subnet }} lease '86400'"
+      - "set service dhcp-server shared-network-name {{ item.desc }} subnet {{ item.dhcp.subnet }} range 0 start '{{ item.dhcp.start }}'"
+      - "set service dhcp-server shared-network-name {{ item.desc }} subnet {{ item.dhcp.subnet }} range 0 stop '{{ item.dhcp.stop }}'"
+  when: item.dhcp is defined
+  loop: "{{ interfaces }}"
+
+- name: configure DHCP Static Mappings
+  include_tasks: static-mappings.yml
+  when: interface.dhcp.static_mappings is defined
+  loop: "{{ interfaces }}"
+  loop_control:
+    loop_var: interface

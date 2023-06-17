@@ -1,0 +1,53 @@
+---
+# tasks file for firewall
+# from https://gitlab.com/stuh84/network-automation-ansible/-/blob/master/vyos/roles/firewall/tasks/main.yml
+# Also retrieved templates
+- name: Allow all local ICMP
+  vyos_config:
+    lines:
+      - set firewall all-ping enable
+  tags:
+    - firewall
+
+- name: Allow stateful traffic 
+  vyos_config:
+    lines:
+      - set firewall state-policy established action accept
+      - set firewall state-policy related action accept
+  tags:
+    - firewall
+
+- name: Define Addresses
+  vyos_config:
+    src: addressbook.j2
+  when:
+    - fw_addresses is defined
+  tags:
+    - firewall
+
+- name: Define zones
+  vyos_config:
+    src: zones.j2
+  when:
+    - zones is defined
+  tags:
+    - firewall
+
+- name: Define Zone Policies - IPv4
+  vyos_config:
+    src: policy_v4.j2
+  when:
+    - fw_policies is defined
+    - fw_policies.ipv4 is defined
+  tags:
+    - firewall
+
+- name: Define Zone Policies - IPv6
+  vyos_config:
+    src: policy_v6.j2
+  when:
+    - fw_policies is defined
+    - fw_policies.ipv6 is defined
+  tags:
+    - firewall
+

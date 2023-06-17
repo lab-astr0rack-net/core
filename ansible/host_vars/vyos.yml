@@ -1,0 +1,267 @@
+---
+zones:
+  - name: external-rack
+    description: rack
+  - name: external-tailscale
+    description: lab
+  - name: internal-lab
+    description: lab
+  - name: local
+    description: local
+    local: true
+interfaces:
+  - vyos_if: "tailscale0"
+    desc: "tailscale"
+    enabled: "true"
+    external: true
+    zone: "external-tailscale"
+  - vyos_if: "eth0"
+    desc: "Rack"
+    enabled: "true"
+    zone: "external-rack"
+  - vyos_if: "eth1"
+    desc: "LABDC"
+    enabled: "true"
+    ipv4_addr: "10.0.0.1/24"
+    dhcp: 
+      subnet: "10.0.0.0/24"
+      gw: "10.0.0.1"
+      dns: "10.0.0.1"
+      domain_name: "lab.astr0rack.net"
+      start: "10.0.0.100"
+      stop: "10.0.0.200"
+      static_mappings:
+        - name: dc-01
+          mac: "22:ca:a4:90:bb:04"
+          ipv4: "10.0.0.50"
+        - name: dc-02
+          mac: "ea:87:14:1a:6d:7f"
+          ipv4: "10.0.0.51"
+    zone: "internal-lab"
+  - vyos_if: "eth2"
+    desc: "LABDMZ"
+    enabled: "true"
+    ipv4_addr: "10.0.10.1/24"
+    dhcp: 
+      subnet: "10.0.10.0/24"
+      gw: "10.0.10.1"
+      dns: "10.0.10.1"
+      domain_name: "lab.astr0rack.net"
+      start: "10.0.10.100"
+      stop: "10.0.10.200"
+      static_mappings:
+        - name: dns-01
+          mac: "36:aa:9e:ec:02:de"
+          ipv4: "10.0.10.10"
+        - name: web-01
+          mac: "92:65:8b:40:2a:7e"
+          ipv4: "10.0.10.20"
+    zone: "internal-lab"
+  - vyos_if: "eth3"
+    desc: "LABLAN"
+    enabled: "true"
+    ipv4_addr: "10.0.20.1/24"
+    dhcp: 
+      subnet: "10.0.20.0/24"
+      gw: "10.0.20.1"
+      dns: "10.0.20.1"
+      domain_name: "lab.astr0rack.net"
+      start: "10.0.20.10"
+      stop: "10.0.20.200"
+    zone: "internal-lab"
+  - vyos_if: "eth4"
+    desc: "LABC2"
+    enabled: "true"
+    ipv4_addr: "10.0.255.1/24"
+    dhcp: 
+      subnet: "10.0.255.0/24"
+      gw: "10.0.255.1"
+      dns: "10.0.255.1"
+      domain_name: "lab.astr0rack.net"
+      start: "10.0.255.150"
+      stop: "10.0.255.200"
+      static_mappings:
+        - name: c2
+          mac: "1a:f4:ef:e2:f6:fe"
+          ipv4: "10.0.255.100"
+    zone: "internal-lab"
+fw_addresses:
+  - name: dc-01
+    ip: 10.0.0.50
+    groups:
+      - dc-01
+      - lab-dc
+  - name: dc-02
+    ip: 10.0.0.51
+    groups:
+      - dc-02
+      - lab-dc
+  - name: dns-01
+    ip: 10.0.10.10
+    groups:
+      - dns-01
+      - lab-server
+  - name: web-01
+    ip: 10.0.10.20
+    groups:
+      - web-01
+      - lab-server
+  - name: c2
+    ip: 10.0.255.100
+    groups:
+      - c2
+      - lab-c2
+  - name: external-gw
+    ip: 192.168.55.1
+    groups:
+      - external-gw
+      - lab-external
+  - name: external-pm
+    ip: 192.168.55.2
+    groups:
+      - external-pm
+      - lab-external
+      - lab-reachable-tailscale
+  - name: external-vyos
+    ip: 192.168.55.3
+    groups:
+      - external-vyos
+      - lab-external
+      - lab-reachable-tailscale
+  - name: rack-space
+    ip: 192.168.0.0-192.168.255.255
+    groups:
+      - rack-ip-space
+  - name: lab-space
+    ip: 10.0.0.0-10.0.255.255
+    groups:
+      - lab-ip-space
+fw_policies:
+  mgmt:
+    ipv4:
+      - name: rack_to_local_ipv4
+        zones:
+          from: external-rack
+          to: local
+        rules:
+          - protocol: tcp
+            port: 22
+            action: accept
+  ipv4:
+    - name: rack_to_local_ipv4
+      zones:
+        from: external-rack
+        to: local
+      rules:
+        - protocol: tcp
+          port: 22
+          action: accept
+        - protocol: tcp
+          port: 53
+          action: accept
+        - protocol: udp
+          port: 53
+          action: accept
+        - protocol: udp
+          port: 41641
+          action: accept
+        - protocol: icmp
+          action: accept
+        - protocol: all
+          action: drop
+    - name: lab_to_rack_ipv4
+      zones:
+        from: internal-lab
+        to: external-rack
+      rules:
+        - source_groups: lab-ip-space
+          dest_groups: rack-ip-space
+          protocol: all
+          action: drop
+        - source_groups: lab-ip-space
+          protocol: tcp_udp
+          action: accept
+        - protocol: all
+          action: drop
+    - name: local_to_rack_ipv4
+      zones:
+        from: local
+        to: external-rack
+      rules:
+        - dest_groups: lab-external
+          protocol: tcp_udp
+          action: accept
+        - dest_groups: lab-external
+          protocol: icmp
+          action: accept
+        - dest_groups: rack-ip-space
+          protocol: all
+          action: drop
+        - protocol: tcp_udp
+          action: accept
+        - protocol: icmp
+          action: accept
+        - protocol: all
+          action: drop
+    - name: local_to_lab_ipv4
+      zones:
+        from: local
+        to: internal-lab
+      rules:
+        - protocol: all
+          action: accept
+    - name: lab_to_local_ipv4
+      zones:
+        from: internal-lab
+        to: local
+      rules:
+        - protocol: udp
+          port: 53
+          action: accept
+        - protocol: udp
+          port: 123
+          action: accept
+        - protocol: all
+          action: drop
+    - name: tailscale_to_lab_ipv4
+      zones:
+        from: external-tailscale
+        to: internal-lab
+      rules:
+        - protocol: all
+          action: accept
+    - name: tailscale_to_external_rack_ipv4
+      zones:
+        from: external-tailscale
+        to: external-rack
+      rules:
+        - dest_groups: external-pm
+          protocol: tcp
+          port: 22
+          action: accept
+        - dest_groups: external-pm
+          protocol: tcp
+          port: 443
+          action: accept
+        - dest_groups: lab-reachable-tailscale
+          protocol: icmp
+          action: accept
+        - protocol: all
+          action: drop
+    - name: tailscale_to_local_ipv4
+      zones:
+        from: external-tailscale
+        to: local
+      rules:
+        - dest_groups: external-vyos
+          protocol: tcp_udp
+          port: 53
+          action: accept
+        - dest_groups: external-vyos
+          protocol: tcp
+          port: 22
+          action: accept
+        - protocol: icmp
+          action: accept
+        - protocol: all
+          action: drop
