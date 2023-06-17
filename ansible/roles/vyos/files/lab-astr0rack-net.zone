@@ -11,6 +11,7 @@ $TTL 30m
                 IN      NS      ns.lab.astr0rack.net.
 
 ns              IN      A       192.168.55.3
+vyos            IN      A       192.168.55.3
 
 
 proxmox         IN      A       192.168.55.2

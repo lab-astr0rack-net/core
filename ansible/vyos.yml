@@ -1,5 +1,0 @@
----
-- import_playbook: playbooks/vyos/general_setup.yml
-- import_playbook: playbooks/vyos/dns_setup.yml
-- import_playbook: playbooks/vyos/tailscale_setup.yml
-- import_playbook: playbooks/vyos/save.yml

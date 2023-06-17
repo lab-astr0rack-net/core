@@ -1,0 +1,6 @@
+---
+- hosts: vyos
+  become: true
+  gather_facts: false
+  roles:
+    - role: vyos

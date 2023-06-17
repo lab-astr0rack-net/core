@@ -1,0 +1,5 @@
+---
+lab_astr0rack_dns_key: "{{ lookup('community.general.bitwarden', 'ansible-vyos-bind9-lab-astr0rack-key', field='password')[0] }}"
+discord_webhook_url: "{{ lookup('community.general.bitwarden', 'ansible-vyos-discord-webhook-url', field='password')[0] }}"
+tailscale_auth_key: "{{ lookup('community.general.bitwarden', 'ansible-vyos-tailscale-auth-key', field='password')[0] }}"
+

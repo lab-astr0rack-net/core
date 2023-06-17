@@ -1,0 +1,34 @@
+---
+- name: Apply general setup and hardening
+  include_tasks: 
+    file: general_setup.yml
+    apply:
+      tags:
+        - setup
+  tags:
+    - setup
+- name: Configure DNS Setup
+  include_tasks: 
+    file: dns_setup.yml
+    apply:
+      tags:
+        - dns
+  tags:
+    - dns
+- name: Configure Tailscale
+  include_tasks: 
+    file: tailscale_setup.yml
+    apply:
+      tags:
+        - tailscale
+  tags:
+    - tailscale
+- name: Save Configuration
+  include_tasks: 
+    file: save.yml
+    apply:
+      tags:
+        - always
+  tags:
+    - always
+

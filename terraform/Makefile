@@ -1,4 +1,4 @@
-all: apply
+all: init apply
 clean: destroy
 
 apply:

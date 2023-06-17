@@ -1,0 +1,39 @@
+---
+- name: configure name servers
+  vyos.vyos.vyos_system:
+    name_servers:
+      - 1.1.1.1
+      - 1.0.0.1
+
+- name: configure domain search suffixes
+  vyos.vyos.vyos_system:
+    domain_search:
+      - lab.astr0rack.net
+
+- name: configure hostname and domain-name
+  vyos.vyos.vyos_system:
+    host_name: vyos-core
+    domain_name: lab.astr0rack.net
+
+- name: configure default route
+  vyos.vyos.vyos_config:
+    lines:
+      - set protocols static route 0.0.0.0/0 dhcp-interface 'eth0'
+
+- name: set facts for ansible ssh
+  set_fact:
+    ansible_connection: ssh
+    ansible_user: vyos
+
+- name: Copy discord notify script
+  template:
+    src: discord-init.sh
+    dest: /config/user-data/
+    mode: "0755"
+
+- name: Enable discord notify script
+  ansible.builtin.lineinfile:
+    path: '/config/scripts/vyos-postconfig-bootup.script'
+    regexp: '^/config/user-data/discord-init.sh'
+    line: '/config/user-data/discord-init.sh &1>/dev/null'
+
