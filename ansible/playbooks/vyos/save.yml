@@ -1,0 +1,11 @@
+- hosts: vyos
+  name: Save vyos configuration
+  tags: [ always ]
+  become: true
+  gather_facts: false
+  tasks:
+    - name: Save the configuration
+      vyos.vyos.vyos_config:
+        save: true
+
+

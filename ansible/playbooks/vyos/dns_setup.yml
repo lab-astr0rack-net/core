@@ -14,30 +14,44 @@
       file:
         path: /config/user-data/bind9/etc
         state: directory
-        mode: '0755'
+        mode: '0775'
+        owner: root
+        group: vyattacfg
         recurse: yes
 
     - name: Copy the named.conf
-      copy:
+      template:
         src: named.conf
         dest: /config/user-data/bind9/etc/
+        owner: root
+        group: vyattacfg
+        mode: "0660"
+      vars:
+        lab_astr0rack_dns_key: "{{ lookup('community.general.bitwarden', 'ansible-vyos-bind9-lab-astr0rack-key', field='password')[0] }}"
 
     - name: Copy the Zone file
       copy:
         src: lab-astr0rack-net.zone
         dest: /config/user-data/bind9/etc/
+        owner: root
+        group: vyattacfg
+        mode: "0660"
 
     - name: Create bind9 cache directory
       file:
         path: /config/user-data/bind9/cache
         state: directory
-        mode: '0755'
+        mode: '0775'
+        owner: root
+        group: vyattacfg
 
     - name: Create bind9 record directory
       file:
         path: /config/user-data/bind9/records
         state: directory
-        mode: '0755'
+        mode: '0775'
+        owner: root
+        group: vyattacfg
 
     - name: set facts for network connection
       set_fact:
@@ -58,3 +72,8 @@
           - set container name bind9 volume records destination '/var/lib/bind'
           - set container name bind9 volume records source '/config/user-data/bind9/records'
 
+    - name: Pull bind9 image and start container 
+      vyos.vyos.vyos_command:
+        commands:
+        - update container image bind9
+        - restart container bind9
