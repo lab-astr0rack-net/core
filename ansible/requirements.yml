@@ -3,3 +3,4 @@ collections:
   - ansible.posix
   - community.general
   - community.docker
+  - vyos.vyos

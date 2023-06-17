@@ -1,0 +1,5 @@
+---
+- hosts: proxmox
+  become: true
+  roles:
+    - role: proxmox

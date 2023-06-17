@@ -1,0 +1,12 @@
+{% for address in fw_addresses %}
+{% if address['groups'] is defined %}
+{% for group in address['groups'] %}
+{% if address['ip'] is defined %}
+set firewall group address-group {{ group }} address {{ address['ip'] }}
+{% endif %}
+{% if address['ipv6'] is defined %}
+set firewall group ipv6-address-group {{ group }} address {{ address['ipv6'] }}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endfor %}
