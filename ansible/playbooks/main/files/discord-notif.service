@@ -1,0 +1,12 @@
+[Unit]
+Description=Discord status notifier
+Requires=network-online.target pveproxy.service pvedaemon.service
+After=pve-guests.service
+
+[Service]
+Type=oneshot
+User=root
+ExecStart=/usr/bin/discord_status_notify
+
+[Install]
+WantedBy=multi-user.target

@@ -126,3 +126,22 @@
         line: '        "${distro_id}:${distro_codename}-backport";'
         insertafter: "Unattended-Upgrade::Allowed-Origins {"
 
+    - name: Copy discord notify script
+      template:
+        src: discord-init.sh
+        dest: /usr/bin/discord_status_notify
+        mode: "0755"
+      vars:
+        discord_webhook_url: "{{ lookup('community.general.bitwarden', 'ansible-proxmox-discord-webhook-url', field='password')[0] }}"
+
+    - name: Copy discord notifier
+      copy:
+        src: discord-notif.service
+        dest: /etc/systemd/system/
+        mode: "0644"
+
+    - name: Enable discord-notif 
+      ansible.builtin.systemd:
+        name: discord-notif.service
+        daemon_reload: yes
+        enabled: yes
