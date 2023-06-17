@@ -1,25 +1,24 @@
-all:
-	ansible-playbook main.yml -i inventory.yml --ask-become-pass
-setup:
-	ansible-playbook playbooks/main/general_setup.yml -i inventory.yml --ask-become-pass
-containers:
-	ansible-playbook playbooks/main/deploy_containers.yml -i inventory.yml --ask-become-pass
-secure-boot:
-	ansible-playbook playbooks/main/secure_boot.yml -i inventory.yml --ask-become-pass
-setup-nics:
-	ansible-playbook playbooks/main/setup_nics.yml -i inventory.yml --ask-become-pass
-create-vyos-image:
-	ansible-playbook playbooks/main/create_vyos_image.yml -i inventory.yml --ask-become-pass
-setup-terraform:
-	ansible-playbook playbooks/main/setup_terraform.yml -i inventory.yml --ask-become-pass
+proxmox:
+	ansible-playbook playbooks/proxmox.yml --ask-become-pass
+proxmox-setup:
+	ansible-playbook playbooks/proxmox.yml --tags setup --ask-become-pass
+proxmox-containers:
+	ansible-playbook playbooks/proxmox.yml --tags containers --ask-become-pass
+proxmox-sb:
+	ansible-playbook playbooks/proxmox.yml --tags secure-boot --ask-become-pass
+proxmox-nics:
+	ansible-playbook playbooks/proxmox.yml --tags setup-nics --ask-become-pass
+proxmox-vi:
+	ansible-playbook playbooks/proxmox.yml --tags vyos-image --ask-become-pass
+proxmox-tf:
+	ansible-playbook playbooks/proxmox.yml --tags setup-terraform --ask-become-pass
 
 vyos:
-	ansible-playbook vyos.yml -i inventory.yml
+	ansible-playbook playbooks/vyos.yml
 vyos-setup:
-	ansible-playbook playbooks/vyos/general_setup.yml -i inventory.yml
-vyos-save:
-	ansible-playbook playbooks/vyos/save.yml -i inventory.yml
+	ansible-playbook playbooks/vyos.yml --tags setup
 vyos-dns:
-	ansible-playbook playbooks/vyos/dns_setup.yml -i inventory.yml
+	ansible-playbook playbooks/vyos.yml --tags dns
 vyos-tailscale:
-	ansible-playbook playbooks/vyos/tailscale_setup.yml -i inventory.yml
+	ansible-playbook playbooks/vyos.yml --tags tailscale
+

@@ -24,20 +24,20 @@ resource "proxmox_vm_qemu" "vyos-core" {
     macaddr = "92:07:2B:55:57:C8"
   }
   network {
-    bridge  = "vmbr1"
-    model   = "e1000"
+    bridge = "vmbr1"
+    model  = "e1000"
   }
   network {
-    bridge  = "vmbr2"
-    model   = "e1000"
+    bridge = "vmbr2"
+    model  = "e1000"
   }
   network {
-    bridge  = "vmbr3"
-    model   = "e1000"
+    bridge = "vmbr3"
+    model  = "e1000"
   }
   network {
-    bridge  = "vmbr4"
-    model   = "e1000"
+    bridge = "vmbr4"
+    model  = "e1000"
   }
   lifecycle {
     ignore_changes = [

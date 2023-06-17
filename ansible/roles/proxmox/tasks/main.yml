@@ -1,0 +1,50 @@
+---
+- name: Apply general setup and hardening
+  include_tasks: 
+    file: general_setup.yml
+    apply:
+      tags:
+        - setup
+  tags:
+    - setup
+- name: Enable secure boot
+  include_tasks:
+    file: secure_boot.yml
+    apply:
+      tags:
+        - secure-boot
+  tags:
+    - secure-boot
+- name: Configure Proxmox network interfaces
+  include_tasks:
+    file: setup_nics.yml
+    apply:
+      tags:
+        - setup-nics
+  tags:
+    - setup-nics
+- name: Setup Proxmox Docker containers
+  include_tasks:
+    file: deploy_containers.yml
+    apply:
+      tags:
+        - containers
+  tags:
+    - containers
+- name: Configure Proxmox for use with Terraform
+  include_tasks:
+    file: setup_terraform.yml
+    apply:
+      tags:
+        - setup-terraform
+  tags:
+    - setup-terraform
+- name: Configure VyOS VM Template
+  include_tasks:
+    file: create_vyos_image.yml
+    apply:
+      tags:
+        - vyos-image
+  tags:
+    - vyos-image
+
