@@ -1,13 +1,11 @@
-$TTL 2d
-
 $ORIGIN lab.astr0rack.net.
-
-@               IN      SOA     ns.lab.astr0rack.net. info.astr0rack.net. (
+$TTL 30m
+@               IN      SOA     ns.lab.astr0rack.net. info.lab.astr0rack.net. (
                                 2023061600      ; serial
-                                12h             ; refresh
+                                1h             ; refresh
                                 15m             ; retry
-                                3w              ; expire
-                                2h              ; minimum ttl
+                                10m              ; expire
+                                10m              ; minimum ttl
                                 )
 
                 IN      NS      ns.lab.astr0rack.net.
@@ -16,3 +14,4 @@ ns              IN      A       192.168.55.3
 
 
 proxmox         IN      A       192.168.55.2
+postgres        IN      A       192.168.55.2
