@@ -20,6 +20,13 @@
     lines:
       - set protocols static route 0.0.0.0/0 dhcp-interface 'eth0'
 
+- name: configure ntp
+  vyos.vyos.vyos_config:
+    lines:
+      - set service ntp server 192.168.55.1 prefer
+      - set service ntp listen-address 0.0.0.0
+      - set service ntp allow-client address 10.0.0.0/16
+
 - name: set facts for ansible ssh
   set_fact:
     ansible_connection: ssh

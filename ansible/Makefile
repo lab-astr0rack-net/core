@@ -21,4 +21,11 @@ vyos-dns:
 	ansible-playbook playbooks/vyos.yml --tags dns
 vyos-tailscale:
 	ansible-playbook playbooks/vyos.yml --tags tailscale
-
+vyos-interfaces:
+	ansible-playbook playbooks/vyos.yml --tags interfaces
+vyos-dhcp:
+	ansible-playbook playbooks/vyos.yml --tags dhcp
+vyos-nat:
+	ansible-playbook playbooks/vyos.yml --tags nat
+vyos-firewall:
+	ansible-playbook playbooks/vyos.yml --tags firewall
