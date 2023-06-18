@@ -1,4 +1,4 @@
-# proxmox
+# core
 
 A Infastructure as Code network security/development lab built using [Proxmox](https://www.proxmox.com/), [VyOS](https://vyos.io/), and [Tailscale](https://tailscale.com/).
 
