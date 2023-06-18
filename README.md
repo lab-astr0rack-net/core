@@ -6,7 +6,7 @@ A Infastructure as Code network security/development lab built using [Proxmox](h
 
 Essentially this repository holds the configuration for the core of the lab:
 
-!(docs/img/lab.svg)
+![diagram](docs/img/lab.svg)
 
 ### Proxmox
 
