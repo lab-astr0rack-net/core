@@ -136,6 +136,10 @@ fw_addresses:
     ip: 10.0.0.0-10.0.255.255
     groups:
       - lab-ip-space
+  - name: tailscale-dns
+    ip: 100.100.100.100
+    groups:
+      - tailscale-dns
 fw_policies:
   mgmt:
     ipv4:
@@ -260,6 +264,19 @@ fw_policies:
         - dest_groups: external-vyos
           protocol: tcp
           port: 22
+          action: accept
+        - protocol: icmp
+          action: accept
+        - protocol: all
+          action: drop
+    - name: local_to_tailscale_ipv4
+      zones:
+        from: local
+        to: external-tailscale
+      rules:
+        - dest_groups: tailscale-dns
+          protocol: tcp_udp
+          port: 53
           action: accept
         - protocol: icmp
           action: accept

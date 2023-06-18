@@ -3,6 +3,7 @@
 while [ -z "$TAILSCALE_STATUS" ]
 do
 	TAILSCALE_STATUS=$(tailscale status | grep vyos | awk '{print $2"  "$1}')
+	sleep 5
 done
 
 WEBHOOK='{{ discord_webhook_url }}'
