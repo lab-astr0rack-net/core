@@ -44,3 +44,8 @@
     regexp: '^/config/user-data/discord-init.sh'
     line: '/config/user-data/discord-init.sh &1>/dev/null'
 
+- name: set facts for network connection
+  set_fact:
+    ansible_connection: ansible.netcommon.network_cli
+    ansible_network_os: vyos.vyos.vyos
+    ansible_user: vyos
