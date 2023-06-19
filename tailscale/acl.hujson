@@ -1,0 +1,39 @@
+{
+	// Access control lists.
+	"acls": [
+		// Match absolutely everything.
+		// Comment this section out if you want to define specific restrictions.
+		{"action": "accept", "src": ["*"], "dst": ["10.0.0.0/16:*"]},
+		{
+			"action": "accept",
+			"src":    ["*"],
+			"proto":  "tcp",
+			"dst":    ["192.168.55.2:443"],
+		},
+		{
+			"action": "accept",
+			"src":    ["*"],
+			"proto":  "tcp",
+			"dst":    ["192.168.55.2:5432"],
+		},
+		{
+			"action": "accept",
+			"src":    ["*"],
+			"proto":  "tcp",
+			"dst":    ["192.168.55.2:22"],
+		},
+		{
+			"action": "accept",
+			"src":    ["*"],
+			"proto":  "tcp",
+			"dst":    ["192.168.55.3:22"],
+		},
+		{
+			"action": "accept",
+			"src":    ["*"],
+			"proto":  "udp",
+			"dst":    ["192.168.55.3:53"],
+		},
+	],
+}
+
