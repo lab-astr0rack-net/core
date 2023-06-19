@@ -41,7 +41,7 @@ jobs:
         env:
           PG_CONN_STR: ${{ secrets.TF_POSTGRES_CRED }}
         id: init
-        run: terraform init -backend-config="conn_str=$${PG_CONN_STR}"
+        run: terraform init -backend-config="conn_str=${PG_CONN_STR}"
       
       - name: Terraform Validate
         id: validate
@@ -51,7 +51,7 @@ jobs:
         if: (github.ref == 'refs/heads/main' ) && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
         env:
           TF_VAR_pm_password:  ${{ secrets.TF_PROXMOX_CRED }}
-        run: terraform apply -auto-approve -input=false -var-file=development.tfvars
+        run: terraform apply -auto-approve -input=false
 
       - name: Logout of Tailscale
         id: ts-logout
