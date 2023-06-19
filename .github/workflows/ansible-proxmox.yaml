@@ -35,6 +35,9 @@ jobs:
           echo "$SSH_KEY" > ~/.ssh/id_ed25519
           chmod 400 ~/.ssh/id_ed25519
 
+      - name: Install required roles
+        run: ansible-galaxy install -r requirements.yml
+
       - name: Tailscale
         uses: tailscale/github-action@v1
         with:
@@ -46,7 +49,12 @@ jobs:
       - name: Run the proxmox playbook
         env:
           ANSIBLE_BECOME_PASSWORD:  ${{ secrets.ANSIBLE_BECOME_PASSWORD }}
-        run: ansible-playbook playbooks/proxmox.yml
+          TF_PROXMOX_PASSWORD: ${{ secrets.TF_PROXMOX_PASSWORD }}
+          TF_POSTGRES_PASSWORD: ${{ secrets.TF_POSTGRES_PASSWORD }}
+          PM_CLOUDFLARE_API: ${{ secrets.PM_CLOUDFLARE_API }}
+          PM_DISCORD_WEBHOOK_URL: ${{ secrets.PM_DISCORD_WEBHOOK_URL }}
+          WT_DISCORD_WEBHOOK_URL: ${{ secrets.WT_DISCORD_WEBHOOK_URL }}
+        run: ansible-playbook playbooks/proxmox.yml --extra-vars "ansible_become_password=$ANSIBLE_BECOME_PASSWORD"
 
       - name: Logout of Tailscale
         id: ts-logout

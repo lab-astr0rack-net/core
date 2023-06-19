@@ -4,7 +4,6 @@ all:
       ansible_user: ghactions
       ansible_host: proxmox.lab.astr0rack.net
       ansible_ssh_private_key_file: ~/.ssh/id_ed25519
-      ansible_become_password: "{{ lookup('ansible.builtin.env', 'ANSIBLE_BECOME_PASSWORD') }}"
     vyos:
       ansible_user: vyos
       ansible_host: vyos.lab.astr0rack.net
@@ -12,4 +11,3 @@ all:
       ansible_network_os: vyos
       ansible_python_interpreter: /usr/bin/python3
       ansible_ssh_private_key_file: ~/.ssh/id_ed25519
-      ansible_become_password: "{{ lookup('ansible.builtin.env', 'ANSIBLE_BECOME_PASSWORD') }}"
