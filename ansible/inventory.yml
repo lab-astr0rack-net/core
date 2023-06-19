@@ -1,7 +1,7 @@
 all:
   hosts:
     proxmox:
-      ansible_user: astr0n8t
+      ansible_user: ghactions
       ansible_host: proxmox.lab.astr0rack.net
     vyos:
       ansible_user: vyos
