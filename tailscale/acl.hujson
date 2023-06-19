@@ -1,3 +1,4 @@
+// ACL managed via GH actions @ https://github.com/lab-astr0rack-net/core
 {
 	// Access control lists.
 	"acls": [
