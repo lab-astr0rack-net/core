@@ -45,7 +45,7 @@ jobs:
 
       - name: Run the proxmox playbook
         env:
-          ANSIBLE_BECOME_PASSWORD:  "${{ secrets.ANSIBLE_BECOME_PASSWORD }}"
+          ANSIBLE_BECOME_PASSWORD:  ${{ secrets.ANSIBLE_BECOME_PASSWORD }}
         run: ansible-playbook playbooks/proxmox.yml
 
       - name: Logout of Tailscale
