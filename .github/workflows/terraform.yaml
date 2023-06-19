@@ -24,6 +24,7 @@ jobs:
         working-directory: terraform
     steps:
       - name: Fix DNS
+        working-directory: /
         run: echo '1.1.1.1' > /etc/resolv.conf
 
       - name: Checkout
