@@ -9,7 +9,6 @@ on:
     branches: [ "main" ]
     paths:
       - 'tailscale/**'
-  workflow_dispatch:
 
 jobs:
   acls:
