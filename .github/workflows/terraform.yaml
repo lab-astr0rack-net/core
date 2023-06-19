@@ -36,7 +36,7 @@ jobs:
         uses: tailscale/github-action@main
         with:
           authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
-          args: "|| tail -f ~/tailscaled.log"
+          args: "& tail -f ~/tailscaled.log &"
 
       - name: Terraform Init
         env:
