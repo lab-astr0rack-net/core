@@ -41,12 +41,12 @@ jobs:
           authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
 
       - name: Ping proxmox
-        run: ansible --ssh-extra-args '"-o StrictHostKeyChecking=accept-new"' -i inventory.yaml -m ping proxmox
+        run: ansible --ssh-extra-args '"-o StrictHostKeyChecking=accept-new"' -i inventory.yml -m ping proxmox
 
       - name: Run the proxmox playbook
         env:
           ANSIBLE_BECOME_PASSWORD:  ${{ secrets.ANSIBLE_BECOME_PASSWORD }}
-        run: ansible-playbook playbooks/proxmox.yaml
+        run: ansible-playbook playbooks/proxmox.yml
 
       - name: Logout of Tailscale
         id: ts-logout
