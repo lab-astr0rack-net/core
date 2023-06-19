@@ -35,6 +35,9 @@ jobs:
           echo "$SSH_KEY" > ~/.ssh/id_ed25519
           chmod 400 ~/.ssh/id_ed25519
 
+      - name: Install required roles
+        run: ansible-galaxy install -r requirements.yml
+
       - name: Tailscale
         uses: tailscale/github-action@v1
         with:
