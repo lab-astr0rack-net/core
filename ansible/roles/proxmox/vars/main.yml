@@ -1,9 +1,9 @@
 ---
 proxmox_ip: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
 proxmox_gateway: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['gateway'] }}"
-terraform_proxmox_password: "{{ lookup('ansible.builtin.env', 'TF_PROXMOX_PASSWORD', default=lookup('community.general.bitwarden', 'terraform-proxmox-credentials', field='password')[0]) }}"
-postgres_password: "{{ lookup('ansible.builtin.env', 'TF_POSTGRES_PASSWORD', default=lookup('community.general.bitwarden', 'ansible-proxmox-postgres-password', field='password')[0]) }}"
-cloudflare_api_token: "{{ lookup('ansible.builtin.env', 'PM_CLOUDFLARE_API', default=lookup('community.general.bitwarden', 'ansible-proxmox-cloudflare-api', field='password')[0]) }}"
-discord_webhook_url: "{{ lookup('ansible.builtin.env', 'PM_DISCORD_WEBHOOK_URL', default=lookup('community.general.bitwarden', 'ansible-proxmox-discord-webhook-url', field='password')[0]) }}"
-watchtower_webhook_url: "{{ lookup('ansible.builtin.env', 'WT_DISCORD_WEBHOOK_URL', default=lookup('community.general.bitwarden', 'ansible-proxmox-watchtower-webhook', field='password')[0]) }}"
+terraform_proxmox_password: "{{ lookup('ansible.builtin.env', 'TF_PROXMOX_PASSWORD', default=lookup('community.general.bitwarden', 'terraform-proxmox-credentials', field='password', errors='ignore')[0]) }}"
+postgres_password: "{{ lookup('ansible.builtin.env', 'TF_POSTGRES_PASSWORD', default=lookup('community.general.bitwarden', 'ansible-proxmox-postgres-password', field='password', errors='ignore')[0]) }}"
+cloudflare_api_token: "{{ lookup('ansible.builtin.env', 'PM_CLOUDFLARE_API', default=lookup('community.general.bitwarden', 'ansible-proxmox-cloudflare-api', field='password', errors='ignore')[0]) }}"
+discord_webhook_url: "{{ lookup('ansible.builtin.env', 'PM_DISCORD_WEBHOOK_URL', default=lookup('community.general.bitwarden', 'ansible-proxmox-discord-webhook-url', field='password', errors='ignore')[0]) }}"
+watchtower_webhook_url: "{{ lookup('ansible.builtin.env', 'WT_DISCORD_WEBHOOK_URL', default=lookup('community.general.bitwarden', 'ansible-proxmox-watchtower-webhook', field='password', errors='ignore')[0]) }}"
 
