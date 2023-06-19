@@ -38,11 +38,6 @@ jobs:
       - name: Install required roles
         run: ansible-galaxy install -r requirements.yml
 
-      - name: Create dummy bw binary
-        run: |
-          echo -e '#!/bin/bash\nexit 1' > /usr/bin/bw
-          chmod +x /usr/bin/bw
-
       - name: Tailscale
         uses: tailscale/github-action@v1
         with:
