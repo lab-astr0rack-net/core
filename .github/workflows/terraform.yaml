@@ -17,6 +17,7 @@ jobs:
       options: --cap-add=NET_ADMIN --cap-add=NET_RAW
       volumes:
         - /var/lib:/var/lib
+        - /etc/resolv.conf:/etc/resolv.conf:rw
         - /dev/net/tun:/dev/net/tun
     defaults:
       run:
