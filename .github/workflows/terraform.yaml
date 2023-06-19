@@ -32,32 +32,10 @@ jobs:
         id: fmt
         run: terraform fmt -check
 
-      - name: Download Tailscale
-        shell: bash
-        id: download
-        env:
-          VERSION: '1.14.0'
-        run: |
-          MINOR=$(echo $VERSION | awk -F '.' {'print $2'})
-          if [ $((MINOR % 2)) -eq 0 ]; then
-            URL="https://pkgs.tailscale.com/stable/tailscale_${VERSION}_amd64.tgz"
-          else
-            URL="https://pkgs.tailscale.com/unstable/tailscale_${VERSION}_amd64.tgz"
-          fi
-          curl $URL -o tailscale.tgz
-          tar -C ${HOME} -xzf tailscale.tgz
-          rm tailscale.tgz
-          TSPATH=${HOME}/tailscale_${VERSION}_amd64
-          sudo mv "${TSPATH}/tailscale" "${TSPATH}/tailscaled" /usr/bin
-
-      - name: Debug tailscaled
-        run: sudo tailscaled
-          
       - name: Tailscale
-        uses: tailscale/github-action@main
+        uses: tailscale/github-action@v1
         with:
           authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
-          args: "& tail -f ~/tailscaled.log &"
 
       - name: Terraform Init
         env:
