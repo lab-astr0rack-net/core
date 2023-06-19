@@ -33,7 +33,7 @@ jobs:
         run: terraform fmt -check
 
       - name: Tailscale
-        uses: tailscale/github-action@v1
+        uses: tailscale/github-action@main
         with:
           authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
           args: "|| tail -f ~/tailscaled.log"
