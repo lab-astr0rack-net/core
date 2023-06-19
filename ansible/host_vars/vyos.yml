@@ -247,6 +247,10 @@ fw_policies:
           protocol: tcp
           port: 443
           action: accept
+        - dest_groups: external-pm
+          protocol: tcp
+          port: 5432
+          action: accept
         - dest_groups: lab-reachable-tailscale
           protocol: icmp
           action: accept
