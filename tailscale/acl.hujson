@@ -5,6 +5,7 @@
 		// Match absolutely everything.
 		// Comment this section out if you want to define specific restrictions.
 		{"action": "accept", "src": ["*"], "dst": ["10.0.0.0/16:*"]},
+		{"action": "accept", "src": ["10.0.1.0/24"], "proto": "tcp", "dst": ["100.64.0.0/10:8888"]},
 		{
 			"action": "accept",
 			"src":    ["*"],
