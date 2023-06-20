@@ -2,6 +2,12 @@
 # tasks file for firewall
 # from https://gitlab.com/stuh84/network-automation-ansible/-/blob/master/vyos/roles/firewall/tasks/main.yml
 # Also retrieved templates
+#
+- name: Remove all firewall rules
+  vyos_config:
+    lines:
+      - delete firewall
+
 - name: Allow all local ICMP
   vyos_config:
     lines:
