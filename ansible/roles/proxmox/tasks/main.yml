@@ -1,4 +1,22 @@
 ---
+- name: Include secrets from environment
+  include_tasks: 
+    file: env.yml
+    apply:
+      tags:
+        - env
+  tags:
+    - env
+    - never
+- name: Include secrets from bitwarden
+  include_tasks: 
+    file: bw.yml
+    apply:
+      tags:
+        - bw
+  tags:
+    - bw
+    - never
 - name: Apply general setup and hardening
   include_tasks: 
     file: general_setup.yml
