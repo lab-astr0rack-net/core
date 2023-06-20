@@ -1,31 +1,31 @@
 proxmox:
-	ansible-playbook playbooks/proxmox.yml --tags bw --ask-become-pass
+	ansible-playbook playbooks/proxmox.yml --ask-become-pass
 proxmox-setup:
-	ansible-playbook playbooks/proxmox.yml --tags setup,bw --ask-become-pass
+	ansible-playbook playbooks/proxmox.yml --tags setup --ask-become-pass
 proxmox-containers:
-	ansible-playbook playbooks/proxmox.yml --tags containers,bw --ask-become-pass
+	ansible-playbook playbooks/proxmox.yml --tags containers --ask-become-pass
 proxmox-sb:
-	ansible-playbook playbooks/proxmox.yml --tags secure-boot,bw --ask-become-pass
+	ansible-playbook playbooks/proxmox.yml --tags secure-boot --ask-become-pass
 proxmox-nics:
-	ansible-playbook playbooks/proxmox.yml --tags setup-nics,bw --ask-become-pass
+	ansible-playbook playbooks/proxmox.yml --tags setup-nics --ask-become-pass
 proxmox-vi:
-	ansible-playbook playbooks/proxmox.yml --tags vyos-image,bw --ask-become-pass
+	ansible-playbook playbooks/proxmox.yml --tags vyos-image --ask-become-pass
 proxmox-tf:
-	ansible-playbook playbooks/proxmox.yml --tags setup-terraform,bw --ask-become-pass
+	ansible-playbook playbooks/proxmox.yml --tags setup-terraform --ask-become-pass
 
 vyos:
-	ansible-playbook playbooks/vyos.yml --tags bw
+	ansible-playbook playbooks/vyos.yml
 vyos-setup:
-	ansible-playbook playbooks/vyos.yml --tags setup,bw
+	ansible-playbook playbooks/vyos.yml --tags setup
 vyos-dns:
-	ansible-playbook playbooks/vyos.yml --tags dns,bw
+	ansible-playbook playbooks/vyos.yml --tags dns
 vyos-tailscale:
-	ansible-playbook playbooks/vyos.yml --tags tailscale,bw
+	ansible-playbook playbooks/vyos.yml --tags tailscale
 vyos-interfaces:
-	ansible-playbook playbooks/vyos.yml --tags interfaces,bw
+	ansible-playbook playbooks/vyos.yml --tags interfaces
 vyos-dhcp:
-	ansible-playbook playbooks/vyos.yml --tags dhcp,bw
+	ansible-playbook playbooks/vyos.yml --tags dhcp
 vyos-nat:
-	ansible-playbook playbooks/vyos.yml --tags nat,bw
+	ansible-playbook playbooks/vyos.yml --tags nat
 vyos-firewall:
-	ansible-playbook playbooks/vyos.yml --tags firewall,bw
+	ansible-playbook playbooks/vyos.yml --tags firewall
