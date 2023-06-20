@@ -1,5 +1,5 @@
 proxmox:
-	ansible-playbook playbooks/proxmox.yml --tags bw --ask-become-pass
+	ansible-playbook playbooks/proxmox.yml --tags all,bw --ask-become-pass
 proxmox-setup:
 	ansible-playbook playbooks/proxmox.yml --tags setup,bw --ask-become-pass
 proxmox-containers:
@@ -14,7 +14,7 @@ proxmox-tf:
 	ansible-playbook playbooks/proxmox.yml --tags setup-terraform,bw --ask-become-pass
 
 vyos:
-	ansible-playbook playbooks/vyos.yml --tags bw
+	ansible-playbook playbooks/vyos.yml --tags all,bw
 vyos-setup:
 	ansible-playbook playbooks/vyos.yml --tags setup,bw
 vyos-dns:
