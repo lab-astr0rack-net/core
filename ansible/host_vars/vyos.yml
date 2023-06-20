@@ -6,6 +6,8 @@ zones:
     description: lab
   - name: internal-lab
     description: lab
+  - name: template-net
+    description: template
   - name: local
     description: local
     local: true
@@ -85,6 +87,18 @@ interfaces:
           mac: "1a:f4:ef:e2:f6:fe"
           ipv4: "10.0.255.100"
     zone: "internal-lab"
+  - vyos_if: "eth5"
+    desc: "TEMPLATENET"
+    enabled: "true"
+    ipv4_addr: "10.0.1.1/24"
+    dhcp: 
+      subnet: "10.0.1.0/24"
+      gw: "10.0.1.1"
+      dns: "1.1.1.1"
+      domain_name: "lab.astr0rack.net"
+      start: "10.0.1.10"
+      stop: "10.0.1.200"
+    zone: "template-net"
 fw_addresses:
   - name: dc-01
     ip: 10.0.0.50
@@ -290,6 +304,30 @@ fw_policies:
           port: 53
           action: accept
         - protocol: icmp
+          action: accept
+        - protocol: all
+          action: drop
+    - name: template_net_to_tailscale_ipv4
+      zones:
+        from: template-net
+        to: external-tailscale
+      rules:
+        - protocol: tcp_udp
+          action: accept
+        - protocol: icmp
+          action: accept
+        - protocol: all
+          action: drop
+    - name: template_to_rack_ipv4
+      zones:
+        from: template-net
+        to: external-rack
+      rules:
+        - dest_groups: rack-ip-space
+          protocol: all
+          action: drop
+        - source_groups: lab-ip-space
+          protocol: tcp_udp
           action: accept
         - protocol: all
           action: drop
