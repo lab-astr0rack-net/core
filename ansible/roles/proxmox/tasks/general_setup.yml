@@ -53,7 +53,7 @@
     name: ghactions
     comment: GitHub Actions User
     groups: sudo
-    password: "{{ lookup('community.general.bitwarden', 'ansible-proxmox-ghactions-user-hash', field='password')[0] }}"
+    password: "{{ ghactions_user_hash }}"
     shell: /bin/bash
 
 - name: Add astr0n8t user
@@ -61,7 +61,7 @@
     name: astr0n8t
     comment: astr0n8t
     groups: sudo
-    password: "{{ lookup('community.general.bitwarden', 'ansible-proxmox-astr0n8t-user-hash', field='password')[0] }}"
+    password: "{{ astr0n8t_user_hash }}"
     shell: /bin/bash
 
 - name: Add ghactions ssh key
