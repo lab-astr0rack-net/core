@@ -140,6 +140,10 @@ fw_addresses:
     ip: 100.100.100.100
     groups:
       - tailscale-dns
+  - name: dev-space
+    ip: 192.168.55.4-192.168.55.254
+    groups:
+      - dev-space
 fw_policies:
   mgmt:
     ipv4:
@@ -250,6 +254,9 @@ fw_policies:
         - dest_groups: external-pm
           protocol: tcp
           port: 5432
+          action: accept
+        - dest_groups: dev-space
+          protocol: tcp_udp
           action: accept
         - dest_groups: lab-reachable-tailscale
           protocol: icmp
