@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'ansible/roles/vyos/**'
+      - 'ansible/host_vars/vyos.yml'
       - 'ansible/playbooks/vyos.yml'
   workflow_dispatch:
 
