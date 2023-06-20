@@ -50,9 +50,17 @@ jobs:
       - name: Terraform Apply
         if: (github.ref == 'refs/heads/main' ) && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
         env:
-          TF_VAR_pm_password:  ${{ secrets.TF_PROXMOX_CRED }}
+          TF_VAR_pm_password:  ${{ secrets.TF_PROXMOX_PASSWORD }}
         run: terraform apply -auto-approve -input=false
 
       - name: Logout of Tailscale
         id: ts-logout
         run: sudo tailscale logout
+
+      - name: Notify discord
+        uses: up9cloud/action-notify@v0.4
+        if: cancelled() == false
+        env:
+          GITHUB_JOB_STATUS: ${{ job.status }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.LAB_DISCORD_WEBHOOK }}
+

@@ -36,3 +36,10 @@ jobs:
           tailnet: ${{ secrets.TS_TAILNET }}
           policy-file: tailscale/acl.hujson
           action: test
+
+      - name: Notify discord
+        uses: up9cloud/action-notify@v0.4
+        if: cancelled() == false
+        env:
+          GITHUB_JOB_STATUS: ${{ job.status }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.LAB_DISCORD_WEBHOOK }}
