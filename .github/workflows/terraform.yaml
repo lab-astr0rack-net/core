@@ -56,3 +56,11 @@ jobs:
       - name: Logout of Tailscale
         id: ts-logout
         run: sudo tailscale logout
+
+      - name: Notify discord
+        uses: up9cloud/action-notify@v0.4
+        if: cancelled() == false
+        env:
+          GITHUB_JOB_STATUS: ${{ job.status }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.LAB_DISCORD_WEBHOOK }}
+
