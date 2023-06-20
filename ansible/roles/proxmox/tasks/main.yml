@@ -1,13 +1,4 @@
 ---
-- name: Include bw variables
-  include_tasks: 
-    file: bw.yml
-    apply:
-      tags:
-        - bw
-  tags:
-    - bw
-    - never
 - name: Apply general setup and hardening
   include_tasks: 
     file: general_setup.yml
