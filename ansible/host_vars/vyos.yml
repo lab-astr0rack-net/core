@@ -307,6 +307,18 @@ fw_policies:
           action: accept
         - protocol: all
           action: drop
+    - name: tailscale_to_template_net_ipv4
+      zones:
+        from: external-tailscale
+        to: template-net
+      rules:
+        - protocol: tcp
+          port: 22
+          action: accept
+        - protocol: icmp
+          action: accept
+        - protocol: all
+          action: drop
     - name: template_net_to_tailscale_ipv4
       zones:
         from: template-net
