@@ -1,0 +1,9 @@
+---
+ghactions_user_hash: "{{ lookup('community.general.bitwarden', 'ansible-proxmox-ghactions-user-hash', field='password')[0] }}"
+astr0n8t_user_hash: "{{ lookup('community.general.bitwarden', 'ansible-proxmox-astr0n8t-user-hash', field='password')[0] }}"
+terraform_proxmox_password: "{{ lookup('community.general.bitwarden', 'terraform-proxmox-credentials', field='password')[0] }}"
+postgres_password: "{{ lookup('community.general.bitwarden', 'ansible-proxmox-postgres-password', field='password')[0] }}"
+cloudflare_api_token: "{{ lookup('community.general.bitwarden', 'ansible-proxmox-cloudflare-api', field='password')[0] }}"
+discord_webhook_url: "{{ lookup('community.general.bitwarden', 'ansible-proxmox-discord-webhook-url', field='password')[0] }}"
+watchtower_webhook_url: "{{ lookup('community.general.bitwarden', 'ansible-proxmox-watchtower-webhook', field='password')[0] }}"
+
