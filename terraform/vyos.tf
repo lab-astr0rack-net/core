@@ -39,6 +39,10 @@ resource "proxmox_vm_qemu" "vyos-core" {
     bridge = "vmbr4"
     model  = "e1000"
   }
+  network {
+    bridge = "vmbr99"
+    model  = "e1000"
+  }
   lifecycle {
     ignore_changes = [
       disk,
