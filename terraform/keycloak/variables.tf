@@ -11,3 +11,13 @@ variable "keycloak_password" {
   sensitive = true
 }
 
+variable "keycloak_github_client_id" {
+  default   = "CHANGEME"
+  sensitive = true
+}
+
+variable "keycloak_github_client_secret" {
+  default   = "CHANGEME"
+  sensitive = true
+}
+
