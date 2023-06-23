@@ -29,7 +29,7 @@ resource "keycloak_openid_client" "proxmox" {
   client_secret                = var.keycloak_proxmox_client_secret
   standard_flow_enabled        = true
   implicit_flow_enabled        = true
-  direct_access_grants_enabeld = true
+  direct_access_grants_enabled = true
   full_scope_allowed           = true
 
   valid_redirect_uris = [
