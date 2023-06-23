@@ -38,8 +38,22 @@
   register: command
   changed_when: "'Added' in command.stdout"
 
-- name: Allow github to use lab pool
+- name: Add template resource pool
+  ansible.builtin.shell:
+    executable: /bin/bash
+    cmd: |
+      EXIST=$(pveum pool list | grep template | wc -l)
+      if [ "$EXIST" == "0" ]
+      then
+        pveum pool add template --comment "Template Resource Pool" 
+        echo "Added pool"
+      fi
+  register: command
+  changed_when: "'Added' in command.stdout"
+
+- name: Allow github to use lab and template pools
   ansible.builtin.shell:
     executable: /bin/bash
     cmd: |
       pveum aclmod /pool/lab/ -group github -role PVEVMAdmin
+      pveum aclmod /pool/template/ -group github -role PVEVMUser

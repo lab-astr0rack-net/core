@@ -65,14 +65,6 @@
         - setup-keycloak
   tags:
     - setup-keycloak
-- name: Configure VyOS VM Template
-  include_tasks:
-    file: create_vyos_image.yml
-    apply:
-      tags:
-        - vyos-image
-  tags:
-    - vyos-image
 - name: Patch proxmox functions
   include_tasks: 
     file: patch_proxmox.yml
@@ -89,3 +81,11 @@
         - perms
   tags:
     - perms
+- name: Configure VyOS VM Template
+  include_tasks:
+    file: create_vyos_image.yml
+    apply:
+      tags:
+        - vyos-image
+  tags:
+    - vyos-image
