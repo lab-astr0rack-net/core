@@ -1,7 +1,7 @@
 ---
 - name: Copy the patched OpenID connect perl func
   copy:
-    src: OpenID.pm
+    src: OpenId.pm
     dest: /usr/share/perl5/PVE/API2/OpenId.pm
     mode: 0644
     owner: root
