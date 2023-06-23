@@ -10,6 +10,8 @@ proxmox-nics:
 	ansible-playbook playbooks/proxmox.yml --tags setup-nics,bw --ask-become-pass
 proxmox-keycloak:
 	ansible-playbook playbooks/proxmox.yml --tags setup-keycloak,bw --ask-become-pass
+proxmox-patch:
+	ansible-playbook playbooks/proxmox.yml --tags patch,bw --ask-become-pass
 proxmox-vi:
 	ansible-playbook playbooks/proxmox.yml --tags vyos-image,bw --ask-become-pass
 proxmox-tf:
