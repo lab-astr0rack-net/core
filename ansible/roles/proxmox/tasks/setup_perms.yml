@@ -1,0 +1,45 @@
+---
+- name: Add github group
+  ansible.builtin.shell:
+    executable: /bin/bash
+    cmd: |
+      EXIST=$(pveum group list | grep github | wc -l)
+      if [ "$EXIST" == "0" ]
+      then
+        pveum group add github --comment "GitHub Realm Group" 
+        echo "Added pool"
+      fi
+  register: command
+  changed_when: "'Added' in command.stdout"
+
+- name: Add infra resource pool
+  ansible.builtin.shell:
+    executable: /bin/bash
+    cmd: |
+      EXIST=$(pveum pool list | grep infra | wc -l)
+      if [ "$EXIST" == "0" ]
+      then
+        pveum pool add infra --comment "Infrastructure Resource Pool" 
+        echo "Added pool"
+      fi
+  register: command
+  changed_when: "'Added' in command.stdout"
+
+- name: Add lab resource pool
+  ansible.builtin.shell:
+    executable: /bin/bash
+    cmd: |
+      EXIST=$(pveum pool list | grep lab | wc -l)
+      if [ "$EXIST" == "0" ]
+      then
+        pveum pool add lab --comment "Lab Resource Pool" 
+        echo "Added pool"
+      fi
+  register: command
+  changed_when: "'Added' in command.stdout"
+
+- name: Allow github to use lab pool
+  ansible.builtin.shell:
+    executable: /bin/bash
+    cmd: |
+      pveum aclmod /pool/lab/ -group github -role PVEVMAdmin
