@@ -1,4 +1,11 @@
 ---
+- name: "Add keycloak to proxmox /etc/hosts"
+  lineinfile: 
+    dest: /etc/hosts 
+    regexp: '.*auth\.lab\.astr0rack\.net$'
+    line: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }} proxmox.lab.astr0rack.net proxmox auth.lab.astr0rack.net" 
+    state: present
+
 - name: Add Keycloak OIDC Realm
   ansible.builtin.shell:
     executable: /bin/bash
@@ -6,7 +13,7 @@
       REALM_EXIST=$(pveum realm list | grep github | wc -l)
       if [ "$REALM_EXIST" == "0" ]
       then
-        pveum realm add github --type openid --issuer-url  https://keycloak.lab.astr0rack.net/realms/lab --client-id proxmox --client-key {{ keycloak_proxmox_client_secret }} --username-claim username --autocreate --default true
+        pveum realm add github --type openid --issuer-url  https://auth.lab.astr0rack.net/realms/lab --client-id proxmox --client-key {{ keycloak_proxmox_client_secret }} --username-claim username --autocreate --default true
         echo "Added realm"
       fi
   register: realm

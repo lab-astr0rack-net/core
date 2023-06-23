@@ -1,8 +1,9 @@
 resource "keycloak_realm" "lab" {
-  realm             = "lab"
-  enabled           = true
-  display_name      = "lab"
-  display_name_html = "<b>lab</b>"
+  realm                       = "lab"
+  enabled                     = true
+  display_name                = "lab"
+  display_name_html           = "<b>lab</b>"
+  default_signature_algorithm = "RS256"
 }
 
 resource "keycloak_oidc_identity_provider" "github" {
@@ -33,7 +34,7 @@ resource "keycloak_openid_client" "proxmox" {
   full_scope_allowed           = true
 
   valid_redirect_uris = [
-    "https://proxmox.lab.astr0rack.net"
+    "https://proxmox.lab.astr0rack.net/*"
   ]
 
   login_theme = "keycloak"
