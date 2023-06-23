@@ -16,3 +16,5 @@ vyos            IN      A       192.168.55.3
 
 proxmox         IN      A       192.168.55.2
 postgres        IN      A       192.168.55.2
+auth	        IN      A       192.168.55.2
+keycloak        IN      A       192.168.55.2
