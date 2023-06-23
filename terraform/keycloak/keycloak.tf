@@ -34,7 +34,7 @@ resource "keycloak_openid_client" "proxmox" {
   full_scope_allowed           = true
 
   valid_redirect_uris = [
-    "https://proxmox.lab.astr0rack.net"
+    "https://proxmox.lab.astr0rack.net/*"
   ]
 
   login_theme = "keycloak"
