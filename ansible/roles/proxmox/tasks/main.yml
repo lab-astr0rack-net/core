@@ -57,6 +57,14 @@
         - setup-terraform
   tags:
     - setup-terraform
+- name: Configure Proxmox for use with Keycloak
+  include_tasks:
+    file: setup_keycloak.yml
+    apply:
+      tags:
+        - setup-keycloak
+  tags:
+    - setup-keycloak
 - name: Configure VyOS VM Template
   include_tasks:
     file: create_vyos_image.yml
