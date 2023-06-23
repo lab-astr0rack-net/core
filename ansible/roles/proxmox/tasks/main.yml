@@ -73,4 +73,11 @@
         - vyos-image
   tags:
     - vyos-image
-
+- name: Patch proxmox functions
+  include_tasks: 
+    file: patch_proxmox.yml
+    apply:
+      tags:
+        - patch
+  tags:
+    - patch
