@@ -1,7 +1,5 @@
 terraform {
-  backend "pg" {
-    schema_name = "vyos"
-  }
+  backend "pg" {}
   required_providers {
     proxmox = {
       source  = "Telmate/proxmox"

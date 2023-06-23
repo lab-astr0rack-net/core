@@ -8,6 +8,6 @@ destroy:
 plan:
 	scripts/local.sh plan
 init:
-	scripts/local.sh init -backend-config="conn_str=$${PG_CONN_STR}"
+	scripts/local.sh init
 fmt:
 	terraform fmt
