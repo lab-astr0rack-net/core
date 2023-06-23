@@ -23,6 +23,9 @@ jobs:
       contents: read
       issues: write
       pull-requests: write
+    strategy:
+      matrix:
+        target: [vyos, keycloak]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -32,7 +35,7 @@ jobs:
 
       - name: Terraform Format
         id: fmt
-        run: terraform fmt -check
+        run: cd ${{ matrix.target }} && terraform fmt -check
 
       - name: Tailscale
         uses: tailscale/github-action@v1
@@ -43,21 +46,21 @@ jobs:
       - name: Terraform Init
         env:
           PG_CONN_STR: ${{ secrets.TF_POSTGRES_CRED }}
-          PG_SCHEMA_NAME: "vyos"
+          PG_SCHEMA_NAME: ${{ matrix.target }}
         id: init
-        run: terraform init
+        run: cd ${{ matrix.target }} && terraform init
       
       - name: Terraform Validate
         id: validate
-        run: terraform validate -no-color
+        run: cd ${{ matrix.target }} && terraform validate -no-color
 
       - name: Terraform Plan
         id: plan
         env:
           TF_VAR_pm_password:  ${{ secrets.TF_PROXMOX_PASSWORD }}
           PG_CONN_STR: ${{ secrets.TF_POSTGRES_CRED }}
-          PG_SCHEMA_NAME: "vyos"
-        run: terraform plan -no-color -input=false
+          PG_SCHEMA_NAME: ${{ matrix.target }} 
+        run: cd ${{ matrix.target }} && terraform plan -no-color -input=false
         continue-on-error: true
 
       - uses: actions/github-script@v6
