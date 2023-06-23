@@ -58,6 +58,7 @@ jobs:
         id: plan
         env:
           TF_VAR_pm_password:  ${{ secrets.TF_PROXMOX_PASSWORD }}
+          TF_VAR_keycloak_password:  ${{ secrets.TF_KEYCLOAK_ADMIN_PASSWORD }}
           PG_CONN_STR: ${{ secrets.TF_POSTGRES_CRED }}
           PG_SCHEMA_NAME: ${{ matrix.target }} 
         run: cd ${{ matrix.target }} && terraform plan -no-color -input=false
