@@ -1,3 +1,4 @@
 ---
 proxmox_ip: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
 proxmox_gateway: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['gateway'] }}"
+keycloak_admin_user: terraform
