@@ -23,6 +23,7 @@ jobs:
         working-directory: terraform
     strategy:
       matrix:
+        max-parallel: 1
         target: [vyos, keycloak]
     steps:
       - name: Checkout
