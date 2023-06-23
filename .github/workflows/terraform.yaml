@@ -41,8 +41,9 @@ jobs:
       - name: Terraform Init
         env:
           PG_CONN_STR: ${{ secrets.TF_POSTGRES_CRED }}
+          PG_SCHEMA_NAME: "vyos"
         id: init
-        run: terraform init -backend-config="conn_str=${PG_CONN_STR}"
+        run: terraform init
       
       - name: Terraform Validate
         id: validate
