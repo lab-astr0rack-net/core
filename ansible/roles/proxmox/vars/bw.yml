@@ -6,4 +6,5 @@ postgres_password: "{{ lookup('community.general.bitwarden', 'ansible-proxmox-po
 cloudflare_api_token: "{{ lookup('community.general.bitwarden', 'ansible-proxmox-cloudflare-api', field='password')[0] }}"
 discord_webhook_url: "{{ lookup('community.general.bitwarden', 'ansible-proxmox-discord-webhook-url', field='password')[0] }}"
 watchtower_webhook_url: "{{ lookup('community.general.bitwarden', 'ansible-proxmox-watchtower-webhook', field='password')[0] }}"
-
+keycloak_admin_password: "{{ lookup('community.general.bitwarden', 'ansible-proxmox-keycloak-admin', field='password')[0] }}"
+keycloak_db_password: "{{ lookup('community.general.bitwarden', 'ansible-proxmox-keycloak-db', field='password')[0] }}"
