@@ -21,3 +21,8 @@ variable "keycloak_github_client_secret" {
   sensitive = true
 }
 
+variable "keycloak_proxmox_client_secret" {
+  default   = "CHANGEME"
+  sensitive = true
+}
+

@@ -8,3 +8,4 @@ discord_webhook_url: "{{ lookup('community.general.bitwarden', 'ansible-proxmox-
 watchtower_webhook_url: "{{ lookup('community.general.bitwarden', 'ansible-proxmox-watchtower-webhook', field='password')[0] }}"
 keycloak_admin_password: "{{ lookup('community.general.bitwarden', 'ansible-proxmox-keycloak-admin', field='password')[0] }}"
 keycloak_db_password: "{{ lookup('community.general.bitwarden', 'ansible-proxmox-keycloak-db', field='password')[0] }}"
+keycloak_proxmox_client_secret: "{{ lookup('community.general.bitwarden', 'terraform-keycloak-proxmox-clientid', field='password')[0] }}"
