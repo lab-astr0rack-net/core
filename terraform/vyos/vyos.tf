@@ -4,6 +4,7 @@ resource "proxmox_vm_qemu" "vyos-core" {
   qemu_os = "l26"
   bios    = "ovmf"
   vmid    = 100
+  pool    = "infra"
   # Need to specify ide2 so the VM can see cloudinit CD
   boot        = "order=scsi0;ide2"
   target_node = var.pm_node

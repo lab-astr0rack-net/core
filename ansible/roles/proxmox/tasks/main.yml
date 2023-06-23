@@ -81,3 +81,11 @@
         - patch
   tags:
     - patch
+- name: Configure Proxmox Pools and Permissions
+  include_tasks: 
+    file: setup_perms.yml
+    apply:
+      tags:
+        - perms
+  tags:
+    - perms
