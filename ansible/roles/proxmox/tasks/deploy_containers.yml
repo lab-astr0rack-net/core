@@ -1,4 +1,8 @@
 ---
+- name: Implement rack network
+  community.docker.docker_network:
+    name: rack
+
 - name: Create watchtower etc directory
   file:
     path: /etc/watchtower
@@ -16,6 +20,22 @@
     src: watchtower.yaml
     dest: /etc/compose/watchtower/docker-compose.yaml
     mode: 0600
+
+- name: Create keycloak data volume
+  community.docker.docker_volume:
+    name: keycloak_db_vol
+
+- name: Create keycloak configuration directory
+  file:
+    path: /etc/compose/keycloak
+    state: directory
+    mode: '0755'
+
+- name: Copy the compose file
+  template:
+    src: keycloak.yaml
+    dest: /etc/compose/keycloak/docker-compose.yaml
+    mode: '0600'
 
 - name: Create postgres data volume
   community.docker.docker_volume:
@@ -72,6 +92,10 @@
 - name: Start caddy
   community.docker.docker_compose:
     project_src: /etc/compose/caddy
+
+- name: Start keycloak
+  community.docker.docker_compose:
+    project_src: /etc/compose/keycloak
 
 - name: Start postgres
   community.docker.docker_compose:

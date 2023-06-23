@@ -26,9 +26,14 @@ services:
       - "443:443"
     depends_on:
       - init-caddy
+    networks:
+      - rack
 
 volumes:
   caddy_config:
   caddy_data_vol:
     external: true
 
+networks:
+  rack:
+    external: true
