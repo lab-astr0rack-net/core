@@ -7,7 +7,8 @@ variable "pm_user" {
 }
 
 variable "pm_password" {
-  default = "CHANGEME"
+  default   = "CHANGEME"
+  sensitive = true
 }
 
 variable "pm_node" {

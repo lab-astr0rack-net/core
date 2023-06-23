@@ -54,6 +54,7 @@ jobs:
           WT_DISCORD_WEBHOOK_URL: ${{ secrets.WT_DISCORD_WEBHOOK_URL }}
           TF_KEYCLOAK_ADMIN_PASSWORD: ${{ secrets.TF_KEYCLOAK_ADMIN_PASSWORD }}
           ANSIBLE_KEYCLOAK_DB_PASSWORD: ${{ secrets.ANSIBLE_KEYCLOAK_DB_PASSWORD }}
+          TF_KEYCLOAK_PROXMOX_CLIENT_SECRET: ${{ secrets.TF_KEYCLOAK_PROXMOX_CLIENT_SECRET }}
         run: ansible-playbook playbooks/proxmox.yml --tags all,env --extra-vars "ansible_become_password=$ANSIBLE_BECOME_PASSWORD"
 
       - name: Logout of Tailscale
