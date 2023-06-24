@@ -1,0 +1,7 @@
+	DPkg::Pre-Install-Pkgs {
+	    "while read -r pkg; do case $pkg in *proxmox-widget-toolkit* | *pve-manager*) touch /tmp/.pve-nag-buster && exit 0; esac done < /dev/stdin";
+	};
+
+	DPkg::Post-Invoke {
+	    "[ -f /tmp/.pve-nag-buster ] && { /usr/share/pve-nag-buster.sh; rm -f /tmp/.pve-nag-buster; }; exit 0";
+	};
