@@ -83,7 +83,7 @@ resource "keycloak_authentication_execution_config" "gh-config" {
 }
 
 resource "keycloak_authentication_bindings" "browser_authentication_binding" {
-  realm_id        = keycloak_realm.lab.id
-  browser_flow  = keycloak_authentication_flow.github-flow.alias
+  realm_id     = keycloak_realm.lab.id
+  browser_flow = keycloak_authentication_flow.github-flow.alias
 }
 
