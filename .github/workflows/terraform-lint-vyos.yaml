@@ -1,9 +1,9 @@
-name: "Terraform Plan"
+name: "Terraform Plan VyOS"
 
 on:
   pull_request:
     paths:
-      - 'terraform/**'
+      - 'terraform/vyos/**'
   workflow_dispatch:
 
 jobs:
@@ -18,14 +18,11 @@ jobs:
         - /dev/net/tun:/dev/net/tun
     defaults:
       run:
-        working-directory: terraform
+        working-directory: terraform/vyos
     permissions:
       contents: read
       issues: write
       pull-requests: write
-    strategy:
-      matrix:
-        target: [vyos, keycloak]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -35,7 +32,7 @@ jobs:
 
       - name: Terraform Format
         id: fmt
-        run: cd ${{ matrix.target }} && terraform fmt -check
+        run: terraform fmt -check
 
       - name: Tailscale
         uses: tailscale/github-action@v1
@@ -46,13 +43,13 @@ jobs:
       - name: Terraform Init
         env:
           PG_CONN_STR: ${{ secrets.TF_POSTGRES_CRED }}
-          PG_SCHEMA_NAME: ${{ matrix.target }}
+          PG_SCHEMA_NAME: vyos
         id: init
-        run: cd ${{ matrix.target }} && terraform init
+        run:  terraform init
       
       - name: Terraform Validate
         id: validate
-        run: cd ${{ matrix.target }} && terraform validate -no-color
+        run:  terraform validate -no-color
 
       - name: Terraform Plan
         id: plan
@@ -63,8 +60,8 @@ jobs:
           TF_VAR_keycloak_github_client_secret:  ${{ secrets.TF_KEYCLOAK_GITHUB_CLIENT_SECRET }}
           TF_VAR_keycloak_proxmox_client_secret:  ${{ secrets.TF_KEYCLOAK_PROXMOX_CLIENT_SECRET }}
           PG_CONN_STR: ${{ secrets.TF_POSTGRES_CRED }}
-          PG_SCHEMA_NAME: ${{ matrix.target }} 
-        run: cd ${{ matrix.target }} && terraform plan -no-color -input=false
+          PG_SCHEMA_NAME: vyos
+        run: terraform plan -no-color -input=false
         continue-on-error: true
 
       - uses: actions/github-script@v6
