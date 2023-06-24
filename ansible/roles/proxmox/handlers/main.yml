@@ -1,28 +1,30 @@
 ---
-- name: Generate secure boot signing keys
-  listen: Generate Keys
-  shell: |
-    openssl req -new -x509 -nodes -newkey rsa:2048 -keyout /var/lib/shim-signed/mok/MOK.priv -outform DER -out /var/lib/shim-signed/mok/MOK.der -days 36500 -subj "/CN=lab.astr0rack.net"
-    openssl x509 -inform der -in /var/lib/shim-signed/mok/MOK.der -out /var/lib/shim-signed/mok/MOK.pem
-    mokutil --import /var/lib/shim-signed/mok/MOK.der
+- name: Create mokutil hash file
+  listen: Disable SB Validation
+  copy:
+    content: "{{ astr0n8t_user_hash }}"
+    dest: /tmp/mok_hashfile
 
-- name: Sign current kernel with signing keys (if this fails there will be pain)
-  listen: Generate Keys
+- name: Disable secure boot validation because proxmox does not support it in v8 for some reason
+  listen: Disable SB Validation
+  become: true
   shell: |
-    VERSION="$(uname -r)"
-    SHORT_VERSION="$(uname -r | cut -d . -f 1-2)"
-    MODULES_DIR=/lib/modules/$VERSION
-    KBUILD_DIR=/usr/lib/linux-kbuild-$SHORT_VERSION
-    sbsign --key MOK.priv --cert MOK.pem "/boot/vmlinuz-$VERSION" --output "/boot/vmlinuz-$VERSION.tmp"
-    mv "/boot/vmlinuz-$VERSION.tmp" "/boot/vmlinuz-$VERSION"
+    mokutil --disable-validation --hash-file /tmp/mok_hashfile
+
+- name: Reboot to disable validation
+  become: true
+  listen: Disable SB Validation
+  reboot:
 
 - name: Restart pveproxy
+  become: true
   listen: Restart pveproxy
   ansible.builtin.systemd:
     name: pveproxy.service
     state: restarted
 
 - name: Restart guest nics
+  become: true
   listen: Restart guest nics
   shell: ifreload -a
  

@@ -25,14 +25,6 @@
         - setup
   tags:
     - setup
-- name: Enable secure boot
-  include_tasks:
-    file: secure_boot.yml
-    apply:
-      tags:
-        - secure-boot
-  tags:
-    - secure-boot
 - name: Configure Proxmox network interfaces
   include_tasks:
     file: setup_nics.yml
