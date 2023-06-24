@@ -4,8 +4,6 @@ proxmox-setup:
 	ansible-playbook playbooks/proxmox.yml --tags setup,bw --ask-become-pass
 proxmox-containers:
 	ansible-playbook playbooks/proxmox.yml --tags containers,bw --ask-become-pass
-proxmox-sb:
-	ansible-playbook playbooks/proxmox.yml --tags secure-boot,bw --ask-become-pass
 proxmox-nics:
 	ansible-playbook playbooks/proxmox.yml --tags setup-nics,bw --ask-become-pass
 proxmox-keycloak:

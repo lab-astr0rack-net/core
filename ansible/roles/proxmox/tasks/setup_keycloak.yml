@@ -1,11 +1,4 @@
 ---
-- name: "Add keycloak to proxmox /etc/hosts"
-  lineinfile: 
-    dest: /etc/hosts 
-    regexp: '.*auth\.lab\.astr0rack\.net$'
-    line: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }} proxmox.lab.astr0rack.net proxmox auth.lab.astr0rack.net" 
-    state: present
-
 - name: Add Keycloak OIDC Realm
   ansible.builtin.shell:
     executable: /bin/bash
