@@ -9,3 +9,15 @@
           PVE::AccessControl::add_user_group($username, $usercfg, $realm);
       }
 
+- name: Copy apt nag remove hook
+  copy:
+    src: apt-hook-nag
+    dest: /etc/apt/apt.conf.d/86pve-nags
+
+- name: Copy apt nag remove script
+  copy:
+    src: pve-nag-buster.sh
+    dest: /usr/share/pve-nag-buster.sh
+    owner: root
+    group: root
+    mode: 0550
