@@ -1,9 +1,11 @@
 ---
-- name: Copy the patched OpenID connect perl func
-  copy:
-    src: OpenId.pm
-    dest: /usr/share/perl5/PVE/API2/OpenId.pm
-    mode: 0644
-    owner: root
-    group: root
+- name: Patch OpenID Connect perl func
+  ansible.builtin.blockinfile:
+    path: /usr/share/perl5/PVE/API2/OpenId.pm
+    insertafter: '		    \$usercfg\-\>\{users\}\-\>\{\$username\} \= \$entry\;'
+    block: |
+      # Add user to realm group
+      if ($usercfg->{groups}->{$realm}) {
+          PVE::AccessControl::add_user_group($username, $usercfg, $realm);
+      }
 
