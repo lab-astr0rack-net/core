@@ -57,14 +57,14 @@ resource "keycloak_authentication_flow" "github-flow" {
 
 resource "keycloak_authentication_execution" "cookie-execution" {
   realm_id          = keycloak_realm.lab.id
-  parent_flow_alias = keycloak_authentication_flow.browser-flow.alias
+  parent_flow_alias = keycloak_authentication_flow.github-flow.alias
   authenticator     = "auth-cookie"
   requirement       = "ALTERNATIVE"
 }
 
 resource "keycloak_authentication_execution" "gh-execution" {
   realm_id          = keycloak_realm.lab.id
-  parent_flow_alias = keycloak_authentication_flow.browser-flow.alias
+  parent_flow_alias = keycloak_authentication_flow.github-flow.alias
   authenticator     = "identity-provider-redirector"
   requirement       = "ALTERNATIVE"
 
