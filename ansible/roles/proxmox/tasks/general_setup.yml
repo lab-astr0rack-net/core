@@ -3,13 +3,55 @@
   hostname:
     name: '{{ ansible_host }}'
 
+- name: "Add proxmox /etc/hosts"
+  lineinfile:
+    dest: /etc/hosts
+    regexp: '.*proxmox.*$'
+    line: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }} proxmox.lab.astr0rack.net proxmox auth.lab.astr0rack.net"
+    state: present
+
+- name: Make sure proxmox enterprise repo is disabled
+  copy:
+    content: ""
+    dest: /etc/apt/sources.list.d/pve-enterprise.list
+    force: yes
+
 - name: Setup proxmox repo
   copy:
-    content: "deb http://download.proxmox.com/debian/pve bullseye pve-no-subscription"
+    content: "deb http://download.proxmox.com/debian/pve bookworm pve-no-subscription"
     dest: /etc/apt/sources.list.d/pve-no-subscription.list
     force: no
+  register: fresh_install
 
-- name: Install packages
+- name: Get Proxmox repo signing key
+  ansible.builtin.get_url:
+    url: https://enterprise.proxmox.com/debian/proxmox-release-bookworm.gpg
+    dest: /etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg
+
+- name: Enable repos
+  ansible.builtin.lineinfile:
+    path: '/etc/apt/sources.list'
+    regexp: '^deb http://deb.debian.org/debian/ bookworm main'
+    line: 'deb http://deb.debian.org/debian/ bookworm main contrib non-free non-free-firmware'
+
+- name: Update system
+  apt:
+    upgrade: full
+    update_cache: yes
+  when: fresh_install.changed
+
+- name: Install pve kernel packages
+  apt:
+    name:
+      - pve-kernel-6.2
+      - pve-headers
+      - dkms
+    state: present
+    update_cache: true
+  notify:
+    - Disable SB Validation
+
+- name: Install pve packages
   apt:
     name:
       - vim
@@ -22,25 +64,22 @@
       - docker-compose
       - python3-docker
       - python3-pip
-      - hashcat-nvidia
+      - hashcat
       - htop
       - nvidia-detect
       - nvidia-driver 
-      - nvidia-cuda-toolkit
       - openvswitch-switch
       - proxmox-ve
-      - pve-headers
-      - pve-kernel-5.15
-      - sbsigntool
-      - shim-signed
     state: present
     update_cache: true
 
-- name: Install docker compose
-  pip:
+- name: Remove debian kernel
+  apt:
     name:
-      - docker-compose
-    state: present
+      - linux-image-amd64
+      - 'linux-image-6.1*'
+      - os-prober
+    state: absent
 
 - name: Enable Docker
   ansible.builtin.systemd:
@@ -139,4 +178,10 @@
     name: discord-notif.service
     daemon_reload: yes
     enabled: yes
+
+- name: Copy discord notifier
+  copy:
+    src: 80-shutdown-on-battery.rules
+    dest: /etc/udev/rules.d/80-shutdown-on-battery.rules
+    mode: "0644"
 

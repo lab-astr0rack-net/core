@@ -82,6 +82,7 @@
 
 - name: Configure pveproxy
   ansible.builtin.blockinfile:
+    create: true
     path: /etc/default/pveproxy
     block: |
       ALLOW_FROM="172.16.0.0/12"
