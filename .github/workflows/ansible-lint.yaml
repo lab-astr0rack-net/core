@@ -20,4 +20,6 @@ jobs:
       - name: Run ansible-lint
         env:
           ANSIBLE_ROLES_PATH: 'ansible/roles:$ANSIBLE_HOME/roles:/usr/share/ansible/roles:/etc/ansible/roles'
-        run: ansible-lint ansible/
+        run: |
+          git config --global --add safe.directory /__w/core/core
+          ansible-lint ansible/
