@@ -4,19 +4,19 @@
 # Also retrieved templates
 #
 - name: Remove all firewall rules
-  vyos_config:
+  vyos.vyos.vyos_config:
     lines:
       - delete firewall
 
 - name: Allow all local ICMP
-  vyos_config:
+  vyos.vyos.vyos_config:
     lines:
       - set firewall all-ping enable
   tags:
     - firewall
 
-- name: Allow stateful traffic 
-  vyos_config:
+- name: Allow stateful traffic
+  vyos.vyos.vyos_config:
     lines:
       - set firewall state-policy established action accept
       - set firewall state-policy related action accept
@@ -24,7 +24,7 @@
     - firewall
 
 - name: Define Addresses
-  vyos_config:
+  vyos.vyos.vyos_config:
     src: addressbook.j2
   when:
     - fw_addresses is defined
@@ -32,7 +32,7 @@
     - firewall
 
 - name: Define zones
-  vyos_config:
+  vyos.vyos.vyos_config:
     src: zones.j2
   when:
     - zones is defined
@@ -40,7 +40,7 @@
     - firewall
 
 - name: Define Zone Policies - IPv4
-  vyos_config:
+  vyos.vyos.vyos_config:
     src: policy_v4.j2
   when:
     - fw_policies is defined
@@ -49,11 +49,10 @@
     - firewall
 
 - name: Define Zone Policies - IPv6
-  vyos_config:
+  vyos.vyos.vyos_config:
     src: policy_v6.j2
   when:
     - fw_policies is defined
     - fw_policies.ipv6 is defined
   tags:
     - firewall
-
