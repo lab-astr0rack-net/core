@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  ANSIBLE_ROLES_PATH: ansible/roles
+  ANSIBLE_ROLES_PATH: 'ansible/roles:$ANSIBLE_HOME/roles:/usr/share/ansible/roles:/etc/ansible/roles'
 
 jobs:
   ansible-lint:
