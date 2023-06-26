@@ -22,4 +22,4 @@ jobs:
           ANSIBLE_ROLES_PATH: 'ansible/roles:$ANSIBLE_HOME/roles:/usr/share/ansible/roles:/etc/ansible/roles'
         run: |
           git config --global --add safe.directory /__w/core/core
-          ansible-lint -c .ansible-lint ansible/
+          ansible-lint -i .ansible-lint-ignore ansible/
