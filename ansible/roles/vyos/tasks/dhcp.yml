@@ -1,5 +1,5 @@
 ---
-- name: configure DHCP
+- name: Configure DHCP
   vyos.vyos.vyos_config:
     lines:
       - "set service dhcp-server shared-network-name {{ item.desc }} subnet {{ item.dhcp.subnet }} default-router '{{ item.dhcp.gw }}'"
@@ -12,8 +12,8 @@
   when: item.dhcp is defined
   loop: "{{ interfaces }}"
 
-- name: configure DHCP Static Mappings
-  include_tasks: static-mappings.yml
+- name: Configure DHCP Static Mappings
+  ansible.builtin.include_tasks: static-mappings.yml
   when: interface.dhcp.static_mappings is defined
   loop: "{{ interfaces }}"
   loop_control:

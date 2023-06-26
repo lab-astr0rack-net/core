@@ -1,8 +1,7 @@
 ---
 - name: Install nic file
-  template:
+  ansible.builtin.template:
     src: nics.conf
     dest: /etc/network/interfaces
     mode: '0644'
   notify: Restart guest nics
-

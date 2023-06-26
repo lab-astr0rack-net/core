@@ -2,7 +2,7 @@
 - name: Patch OpenID Connect perl func
   ansible.builtin.blockinfile:
     path: /usr/share/perl5/PVE/API2/OpenId.pm
-    insertafter: '		    \$usercfg\-\>\{users\}\-\>\{\$username\} \= \$entry\;'
+    insertafter: '		    \$usercfg\-\>\{users\}\-\>\{\$username\} \= \$entry\;' # noqa: no-tabs
     block: |
       # Add user to realm group
       if ($usercfg->{groups}->{$realm}) {
@@ -10,14 +10,15 @@
       }
 
 - name: Copy apt nag remove hook
-  copy:
+  ansible.builtin.copy:
     src: apt-hook-nag
     dest: /etc/apt/apt.conf.d/86pve-nags
+    mode: "0644"
 
 - name: Copy apt nag remove script
-  copy:
+  ansible.builtin.copy:
     src: pve-nag-buster.sh
     dest: /usr/share/pve-nag-buster.sh
     owner: root
     group: root
-    mode: 0550
+    mode: "0550"

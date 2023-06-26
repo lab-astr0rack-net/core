@@ -4,35 +4,35 @@
     name: rack
 
 - name: Create watchtower etc directory
-  file:
+  ansible.builtin.file:
     path: /etc/watchtower
     state: directory
     mode: '0755'
 
 - name: Create watchtower configuration directory
-  file:
+  ansible.builtin.file:
     path: /etc/compose/watchtower
     state: directory
     mode: '0755'
 
 - name: Copy the compose file
-  template:
+  ansible.builtin.template:
     src: watchtower.yaml
     dest: /etc/compose/watchtower/docker-compose.yaml
-    mode: 0600
+    mode: "0600"
 
 - name: Create keycloak data volume
   community.docker.docker_volume:
     name: keycloak_db_vol
 
 - name: Create keycloak configuration directory
-  file:
+  ansible.builtin.file:
     path: /etc/compose/keycloak
     state: directory
     mode: '0755'
 
 - name: Copy the compose file
-  template:
+  ansible.builtin.template:
     src: keycloak.yaml
     dest: /etc/compose/keycloak/docker-compose.yaml
     mode: '0600'
@@ -42,13 +42,13 @@
     name: postgres_data_vol
 
 - name: Create postgres configuration directory
-  file:
+  ansible.builtin.file:
     path: /etc/compose/postgres
     state: directory
     mode: '0755'
 
 - name: Copy the compose file
-  template:
+  ansible.builtin.template:
     src: postgres.yaml
     dest: /etc/compose/postgres/docker-compose.yaml
     mode: '0600'
@@ -58,27 +58,28 @@
     name: caddy_data_vol
 
 - name: Create caddy configuration directory
-  file:
+  ansible.builtin.file:
     path: /etc/compose/caddy
     state: directory
     mode: '0755'
 
 - name: Copy the compose file
-  template:
+  ansible.builtin.template:
     src: caddy.yaml
     dest: /etc/compose/caddy/docker-compose.yaml
     mode: '0600'
 
 - name: Create caddy configuration directory
-  file:
+  ansible.builtin.file:
     path: /etc/caddy
     state: directory
     mode: '0755'
 
 - name: Copy the Caddyfile
-  copy:
+  ansible.builtin.copy:
     src: Caddyfile
     dest: /etc/caddy/Caddyfile
+    mode: "0600"
 
 - name: Configure pveproxy
   ansible.builtin.blockinfile:
@@ -88,6 +89,7 @@
       ALLOW_FROM="172.16.0.0/12"
       DENY_FROM="all"
       POLICY="allow"
+    mode: "0644"
   notify: Restart pveproxy
 
 - name: Start caddy
@@ -105,4 +107,3 @@
 - name: Start watchtower
   community.docker.docker_compose:
     project_src: /etc/compose/watchtower
-

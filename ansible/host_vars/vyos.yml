@@ -25,7 +25,7 @@ interfaces:
     desc: "LABDC"
     enabled: "true"
     ipv4_addr: "10.0.0.1/24"
-    dhcp: 
+    dhcp:
       subnet: "10.0.0.0/24"
       gw: "10.0.0.1"
       dns: "10.0.0.1"
@@ -44,7 +44,7 @@ interfaces:
     desc: "LABDMZ"
     enabled: "true"
     ipv4_addr: "10.0.10.1/24"
-    dhcp: 
+    dhcp:
       subnet: "10.0.10.0/24"
       gw: "10.0.10.1"
       dns: "10.0.10.1"
@@ -63,7 +63,7 @@ interfaces:
     desc: "LABLAN"
     enabled: "true"
     ipv4_addr: "10.0.20.1/24"
-    dhcp: 
+    dhcp:
       subnet: "10.0.20.0/24"
       gw: "10.0.20.1"
       dns: "10.0.20.1"
@@ -75,7 +75,7 @@ interfaces:
     desc: "LABC2"
     enabled: "true"
     ipv4_addr: "10.0.255.1/24"
-    dhcp: 
+    dhcp:
       subnet: "10.0.255.0/24"
       gw: "10.0.255.1"
       dns: "10.0.255.1"
@@ -91,7 +91,7 @@ interfaces:
     desc: "TEMPLATENET"
     enabled: "true"
     ipv4_addr: "10.0.1.1/24"
-    dhcp: 
+    dhcp:
       subnet: "10.0.1.0/24"
       gw: "10.0.1.1"
       dns: "1.1.1.1"

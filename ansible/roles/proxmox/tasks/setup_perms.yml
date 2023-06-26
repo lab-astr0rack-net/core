@@ -3,10 +3,11 @@
   ansible.builtin.shell:
     executable: /bin/bash
     cmd: |
+      set -o pipefail
       EXIST=$(pveum group list | grep github | wc -l)
       if [ "$EXIST" == "0" ]
       then
-        pveum group add github --comment "GitHub Realm Group" 
+        pveum group add github --comment "GitHub Realm Group"
         echo "Added pool"
       fi
   register: command
@@ -16,10 +17,11 @@
   ansible.builtin.shell:
     executable: /bin/bash
     cmd: |
+      set -o pipefail
       EXIST=$(pveum pool list | grep infra | wc -l)
       if [ "$EXIST" == "0" ]
       then
-        pveum pool add infra --comment "Infrastructure Resource Pool" 
+        pveum pool add infra --comment "Infrastructure Resource Pool"
         echo "Added pool"
       fi
   register: command
@@ -29,10 +31,11 @@
   ansible.builtin.shell:
     executable: /bin/bash
     cmd: |
+      set -o pipefail
       EXIST=$(pveum pool list | grep lab | wc -l)
       if [ "$EXIST" == "0" ]
       then
-        pveum pool add lab --comment "Lab Resource Pool" 
+        pveum pool add lab --comment "Lab Resource Pool"
         echo "Added pool"
       fi
   register: command
@@ -42,10 +45,11 @@
   ansible.builtin.shell:
     executable: /bin/bash
     cmd: |
+      set -o pipefail
       EXIST=$(pveum pool list | grep template | wc -l)
       if [ "$EXIST" == "0" ]
       then
-        pveum pool add template --comment "Template Resource Pool" 
+        pveum pool add template --comment "Template Resource Pool"
         echo "Added pool"
       fi
   register: command
@@ -57,3 +61,5 @@
     cmd: |
       pveum aclmod /pool/lab/ -group github -role PVEVMAdmin
       pveum aclmod /pool/template/ -group github -role PVEVMUser
+  register: command
+  changed_when: "command.rc == 0"
