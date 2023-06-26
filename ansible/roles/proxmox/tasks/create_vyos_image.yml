@@ -1,26 +1,31 @@
 ---
 - name: Copy the Cloud Init file
-  copy:
+  ansible.builtin.copy:
     src: vyos-cloud-config.yml
     dest: /var/lib/vz/snippets/vyos-cloud-config.yml
+    mode: "0644"
 
 - name: Download latest VyOS Build
   ansible.builtin.get_url:
     url: https://github.com/astr0n8t/vyos-tailscale-gha/releases/download/v1.4-rolling-202306152036/vyos-qemu-1.4-rolling-202306152036-amd64.qcow2
     dest: /tmp/vyos-qemu-latest-amd64.qcow2
+    mode: "0644"
 
 - name: Create new VM to serve as template
   ansible.builtin.shell: |
     qm destroy 999
-    qm create 999 --name vyos-1.4-rolling-cloudinit --memory 1024 --bios ovmf --efidisk0 data:1,format=raw,efitype=4m,pre-enrolled-keys=0 -tpmstate0 data:1,version=v2.0 --pool template
+    qm create 999 --name vyos-1.4-rolling-cloudinit --memory 1024 --bios ovmf \
+    --efidisk0 data:1,format=raw,efitype=4m,pre-enrolled-keys=0 \
+    -tpmstate0 data:1,version=v2.0 --pool template
     qm importdisk 999 /tmp/vyos-qemu-latest-amd64.qcow2 data --format qcow2
     qm set 999 --scsi0 data:vm-999-disk-2
     qm set 999 --boot c --bootdisk scsi0
     qm set 999 --ide2 media=cdrom,file=none
     qm template 999
+  register: create
+  changed_when: "create.rc == 0"
 
 - name: Remove disk image on tmp
   ansible.builtin.file:
     path: /tmp/vyos-qemu-latest-amd64.qcow2
     state: absent
-

@@ -1,6 +1,6 @@
 ---
 - name: Include secrets from environment
-  include_tasks: 
+  ansible.builtin.include_tasks:
     file: env.yml
     apply:
       tags:
@@ -9,7 +9,7 @@
     - env
     - never
 - name: Include secrets from bitwarden
-  include_tasks: 
+  ansible.builtin.include_tasks:
     file: bw.yml
     apply:
       tags:
@@ -18,7 +18,7 @@
     - bw
     - never
 - name: Apply general setup and hardening
-  include_tasks: 
+  ansible.builtin.include_tasks:
     file: general_setup.yml
     apply:
       tags:
@@ -26,7 +26,7 @@
   tags:
     - setup
 - name: Configure Proxmox network interfaces
-  include_tasks:
+  ansible.builtin.include_tasks:
     file: setup_nics.yml
     apply:
       tags:
@@ -34,7 +34,7 @@
   tags:
     - setup-nics
 - name: Setup Proxmox Docker containers
-  include_tasks:
+  ansible.builtin.include_tasks:
     file: deploy_containers.yml
     apply:
       tags:
@@ -42,7 +42,7 @@
   tags:
     - containers
 - name: Configure Proxmox for use with Terraform
-  include_tasks:
+  ansible.builtin.include_tasks:
     file: setup_terraform.yml
     apply:
       tags:
@@ -50,7 +50,7 @@
   tags:
     - setup-terraform
 - name: Configure Proxmox for use with Keycloak
-  include_tasks:
+  ansible.builtin.include_tasks:
     file: setup_keycloak.yml
     apply:
       tags:
@@ -58,7 +58,7 @@
   tags:
     - setup-keycloak
 - name: Patch proxmox functions
-  include_tasks: 
+  ansible.builtin.include_tasks:
     file: patch_proxmox.yml
     apply:
       tags:
@@ -66,7 +66,7 @@
   tags:
     - patch
 - name: Configure Proxmox Pools and Permissions
-  include_tasks: 
+  ansible.builtin.include_tasks:
     file: setup_perms.yml
     apply:
       tags:
@@ -74,7 +74,7 @@
   tags:
     - perms
 - name: Configure VyOS VM Template
-  include_tasks:
+  ansible.builtin.include_tasks:
     file: create_vyos_image.yml
     apply:
       tags:

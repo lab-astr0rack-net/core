@@ -1,39 +1,39 @@
 ---
-- name: configure name servers
+- name: Configure name servers
   vyos.vyos.vyos_system:
     name_servers:
       - 1.1.1.1
       - 1.0.0.1
 
-- name: configure domain search suffixes
+- name: Configure domain search suffixes
   vyos.vyos.vyos_system:
     domain_search:
       - lab.astr0rack.net
 
-- name: configure hostname and domain-name
+- name: Configure hostname and domain-name
   vyos.vyos.vyos_system:
     host_name: vyos-core
     domain_name: lab.astr0rack.net
 
-- name: configure default route
+- name: Configure default route
   vyos.vyos.vyos_config:
     lines:
       - set protocols static route 0.0.0.0/0 dhcp-interface 'eth0'
 
-- name: configure ntp
+- name: Configure ntp
   vyos.vyos.vyos_config:
     lines:
       - set service ntp server 192.168.55.1 prefer
       - set service ntp listen-address 0.0.0.0
       - set service ntp allow-client address 10.0.0.0/16
 
-- name: set facts for ansible ssh
-  set_fact:
+- name: Set facts for ansible ssh
+  ansible.builtin.set_fact:
     ansible_connection: ssh
     ansible_user: vyos
 
 - name: Copy discord notify script
-  template:
+  ansible.builtin.template:
     src: discord-init.sh
     dest: /config/user-data/
     mode: "0755"
@@ -44,8 +44,8 @@
     regexp: '^/config/user-data/discord-init.sh'
     line: '/config/user-data/discord-init.sh &1>/dev/null'
 
-- name: set facts for network connection
-  set_fact:
+- name: Set facts for network connection
+  ansible.builtin.set_fact:
     ansible_connection: ansible.netcommon.network_cli
     ansible_network_os: vyos.vyos.vyos
     ansible_user: vyos

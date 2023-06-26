@@ -1,8 +1,7 @@
 ---
-- name: configure interface NAT
+- name: Configure interface NAT
   vyos.vyos.vyos_config:
     lines:
       - set nat source rule 1 outbound-interface 'eth0'
       - set nat source rule 1 source address '10.0.0.0/16'
       - set nat source rule 1 translation address 'masquerade'
-

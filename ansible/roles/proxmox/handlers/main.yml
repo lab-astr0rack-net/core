@@ -1,15 +1,39 @@
 ---
+- name: Update system
+  ansible.builtin.apt:
+    upgrade: full
+    update_cache: true
+  listen: Fresh install
+
+- name: Restart sshd
+  ansible.builtin.systemd:
+    name: ssh.service
+    state: restarted
+    enabled: true
+  listen: Restart sshd
+
 - name: Create mokutil hash file
   listen: Disable SB Validation
   ansible.builtin.copy:
     content: "{{ astr0n8t_user_hash }}"
     dest: /tmp/mok_hashfile
+    mode: "0400"
 
 - name: Disable secure boot validation because proxmox does not support it in v8 for some reason
   listen: Disable SB Validation
   become: true
-  ansible.builtin.shell: |
-    mokutil --disable-validation --hash-file /tmp/mok_hashfile
+  ansible.builtin.shell:
+    executable: /bin/bash
+    cmd: |
+      set -o pipefail
+      STATE=$(mokutil --sb-state | grep 'SecureBoot validation is disabled in shim' | wc -l)
+      if [ "$STATE" == "0" ]
+      then
+        mokutil --disable-validation --hash-file /tmp/mok_hashfile
+        echo "SB validation disabled"
+      fi
+  register: disable_sb
+  changed_when: "'SB validation disabled' in disable_sb.stdout"
 
 - name: Reboot to disable validation
   become: true
@@ -26,5 +50,6 @@
 - name: Restart guest nics
   become: true
   listen: Restart guest nics
-  ansible.builtin.shell: ifreload -a
- 
+  ansible.builtin.command: ifreload -a
+  register: reload
+  changed_when: "reload.rc == 0"
