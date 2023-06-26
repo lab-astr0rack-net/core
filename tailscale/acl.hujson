@@ -1,5 +1,8 @@
 // ACL managed via GH actions @ https://github.com/lab-astr0rack-net/core
 {
+	"tagOwners": {
+		"tag:actions": ["astr0n8t@github"]
+	},
 	// Access control lists.
 	"acls": [
 		// Allow generic access to lab net
