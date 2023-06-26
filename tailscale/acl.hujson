@@ -1,40 +1,60 @@
 // ACL managed via GH actions @ https://github.com/lab-astr0rack-net/core
 {
+	"tagOwners": {
+		"tag:actions": ["astr0n8t@github"]
+	},
 	// Access control lists.
 	"acls": [
-		// Match absolutely everything.
-		// Comment this section out if you want to define specific restrictions.
-		{"action": "accept", "src": ["*"], "dst": ["10.0.0.0/16:*"]},
-		{"action": "accept", "src": ["10.0.1.0/24"], "proto": "tcp", "dst": ["100.64.0.0/10:8888"]},
+		// Allow generic access to lab net
+		{
+			"action": "accept", 
+			"src": ["*"], 
+			"dst": ["10.0.0.0/16:*"]
+		},
+		// Allow generic access to DNS
+		{
+			"action": "accept",
+			"src":    ["*"],
+			"proto":  "udp",
+			"dst":    ["192.168.55.3:53"],
+		},
+		// Allow generic access to Proxmox WebUI
 		{
 			"action": "accept",
 			"src":    ["*"],
 			"proto":  "tcp",
 			"dst":    ["192.168.55.2:443"],
 		},
+		// Allow template VMs to reach packer http port
+		{
+			"action": "accept", 
+			"src": ["10.0.1.0/24"], 
+			"proto": "tcp", 
+			"dst": ["tag:actions:8888"]
+		},
+		// Allow Actions to reach Postgres
+		// for Terraform state
 		{
 			"action": "accept",
-			"src":    ["*"],
+			"src":    ["tag:actions"],
 			"proto":  "tcp",
 			"dst":    ["192.168.55.2:5432"],
 		},
+		// Allow Actions to reach Proxmox SSH
+		// for Ansible
 		{
 			"action": "accept",
-			"src":    ["*"],
+			"src":    ["tag:actions"],
 			"proto":  "tcp",
 			"dst":    ["192.168.55.2:22"],
 		},
+		// Allow Actions to reach VyOS SSH
+		// for Ansible
 		{
 			"action": "accept",
-			"src":    ["*"],
+			"src":    ["tag:actions"],
 			"proto":  "tcp",
 			"dst":    ["192.168.55.3:22"],
-		},
-		{
-			"action": "accept",
-			"src":    ["*"],
-			"proto":  "udp",
-			"dst":    ["192.168.55.3:53"],
 		},
 	],
 }
