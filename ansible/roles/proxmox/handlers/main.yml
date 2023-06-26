@@ -1,20 +1,20 @@
 ---
 - name: Create mokutil hash file
   listen: Disable SB Validation
-  copy:
+  ansible.builtin.copy:
     content: "{{ astr0n8t_user_hash }}"
     dest: /tmp/mok_hashfile
 
 - name: Disable secure boot validation because proxmox does not support it in v8 for some reason
   listen: Disable SB Validation
   become: true
-  shell: |
+  ansible.builtin.shell: |
     mokutil --disable-validation --hash-file /tmp/mok_hashfile
 
 - name: Reboot to disable validation
   become: true
   listen: Disable SB Validation
-  reboot:
+  ansible.builtin.reboot:
 
 - name: Restart pveproxy
   become: true
@@ -26,5 +26,5 @@
 - name: Restart guest nics
   become: true
   listen: Restart guest nics
-  shell: ifreload -a
+  ansible.builtin.shell: ifreload -a
  
