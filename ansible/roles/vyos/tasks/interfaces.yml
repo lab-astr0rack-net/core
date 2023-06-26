@@ -2,18 +2,18 @@
 # From https://gitlab.com/stuh84/network-automation-ansible/-/blob/master/vyos/roles/interfaces/tasks/main.yml
 # tasks file for interfaces
 - name: Configure interfaces - Status and Descriptions
-  vyos_interfaces:
+  vyos.vyos.vyos_interfaces:
     config:
       - name: "{{ item.vyos_if }}"
         description: "{{ item.desc }}"
         enabled: "{{ item.enabled }}"
-  when: 
-    - item.vif is not defined 
+  when:
+    - item.vif is not defined
     - item.external is not defined
   loop: "{{ interfaces }}"
 
 - name: Configure interfaces - Status and Descriptions - vifs
-  vyos_interfaces:
+  vyos.vyos.vyos_interfaces:
     config:
       - name: "{{ item.vyos_if }}"
         vifs:
@@ -24,50 +24,49 @@
   loop: "{{ interfaces }}"
 
 - name: Configure interfaces - L3 IPv4
-  vyos_l3_interfaces:
+  vyos.vyos.vyos_l3_interfaces:
     config:
       - name: "{{ item.vyos_if }}"
         ipv4:
-        - address: "{{ item.ipv4_addr }}"
-  when: 
+          - address: "{{ item.ipv4_addr }}"
+  when:
     - item.ipv4_addr is defined
     - item.vif is not defined
   loop: "{{ interfaces }}"
 
 - name: Configure interfaces - L3 IPv4 - vifs
-  vyos_l3_interfaces:
+  vyos.vyos.vyos_l3_interfaces:
     config:
       - name: "{{ item.vyos_if }}"
         vifs:
           - ipv4:
-            - address: "{{ item.ipv4_addr }}"
+              - address: "{{ item.ipv4_addr }}"
             vlan_id: "{{ item.vif }}"
-  when: 
+  when:
     - item.ipv4_addr is defined
     - item.vif is defined
   loop: "{{ interfaces }}"
 
 - name: Configure interfaces - L3 IPv6
-  vyos_l3_interfaces:
+  vyos.vyos.vyos_l3_interfaces:
     config:
       - name: "{{ item.vyos_if }}"
         ipv6:
-        - address: "{{ item.ipv6_addr }}"
+          - address: "{{ item.ipv6_addr }}"
   when:
     - item.ipv6_addr is defined
     - item.vif is not defined
   loop: "{{ interfaces }}"
 
 - name: Configure interfaces - L3 IPv6 - vifs
-  vyos_l3_interfaces:
+  vyos.vyos.vyos_l3_interfaces:
     config:
       - name: "{{ item.vyos_if }}"
         vifs:
           - ipv6:
-             - address: "{{ item.ipv6_addr }}"
+              - address: "{{ item.ipv6_addr }}"
             vlan_id: "{{ item.vif }}"
   when:
     - item.ipv6_addr is defined
     - item.vif is defined
   loop: "{{ interfaces }}"
-

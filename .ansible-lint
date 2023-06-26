@@ -1,0 +1,4 @@
+---
+exclude_paths: 
+  - ansible/roles/*/files
+  - ansible/roles/*/templates

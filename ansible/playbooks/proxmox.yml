@@ -1,5 +1,6 @@
 ---
-- hosts: proxmox
+- name: Run the proxmox role
+  hosts: proxmox
   become: true
   roles:
     - role: proxmox

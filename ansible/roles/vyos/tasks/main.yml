@@ -1,6 +1,6 @@
 ---
 - name: Include secrets from environment
-  include_tasks: 
+  ansible.builtin.include_tasks:
     file: env.yml
     apply:
       tags:
@@ -9,7 +9,7 @@
     - env
     - never
 - name: Include secrets from bitwarden
-  include_tasks: 
+  ansible.builtin.include_tasks:
     file: bw.yml
     apply:
       tags:
@@ -18,7 +18,7 @@
     - bw
     - never
 - name: Apply general setup and hardening
-  include_tasks: 
+  ansible.builtin.include_tasks:
     file: general_setup.yml
     apply:
       tags:
@@ -26,7 +26,7 @@
   tags:
     - setup
 - name: Configure DNS Setup
-  include_tasks: 
+  ansible.builtin.include_tasks:
     file: dns_setup.yml
     apply:
       tags:
@@ -34,7 +34,7 @@
   tags:
     - dns
 - name: Configure Tailscale
-  include_tasks: 
+  ansible.builtin.include_tasks:
     file: tailscale_setup.yml
     apply:
       tags:
@@ -42,7 +42,7 @@
   tags:
     - tailscale
 - name: Configure Interfaces
-  include_tasks: 
+  ansible.builtin.include_tasks:
     file: interfaces.yml
     apply:
       tags:
@@ -50,7 +50,7 @@
   tags:
     - interfaces
 - name: Configure DHCP
-  include_tasks: 
+  ansible.builtin.include_tasks:
     file: dhcp.yml
     apply:
       tags:
@@ -58,7 +58,7 @@
   tags:
     - dhcp
 - name: Configure Outbound NAT
-  include_tasks: 
+  ansible.builtin.include_tasks:
     file: nat.yml
     apply:
       tags:
@@ -66,7 +66,7 @@
   tags:
     - nat
 - name: Configure Firewall
-  include_tasks: 
+  ansible.builtin.include_tasks:
     file: firewall.yml
     apply:
       tags:
@@ -74,11 +74,10 @@
   tags:
     - firewall
 - name: Save Configuration
-  include_tasks: 
+  ansible.builtin.include_tasks:
     file: save.yml
     apply:
       tags:
         - always
   tags:
     - always
-

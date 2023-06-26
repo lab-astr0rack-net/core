@@ -3,10 +3,14 @@
   ansible.builtin.shell:
     executable: /bin/bash
     cmd: |
+      set -o pipefail
       REALM_EXIST=$(pveum realm list | grep github | wc -l)
       if [ "$REALM_EXIST" == "0" ]
       then
-        pveum realm add github --type openid --issuer-url  https://auth.lab.astr0rack.net/realms/lab --client-id proxmox --client-key {{ keycloak_proxmox_client_secret }} --username-claim username --autocreate --default true
+        pveum realm add github --type openid --issuer-url  \
+        https://auth.lab.astr0rack.net/realms/lab --client-id proxmox \
+        --client-key {{ keycloak_proxmox_client_secret }} \
+        --username-claim username --autocreate --default true
         echo "Added realm"
       fi
   register: realm

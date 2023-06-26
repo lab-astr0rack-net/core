@@ -1,32 +1,36 @@
 ---
 - name: Change the hostname to our standard
-  hostname:
+  ansible.builtin.hostname:
     name: '{{ ansible_host }}'
 
 - name: "Add proxmox /etc/hosts"
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/hosts
     regexp: '.*proxmox.*$'
     line: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }} proxmox.lab.astr0rack.net proxmox auth.lab.astr0rack.net"
     state: present
 
 - name: Make sure proxmox enterprise repo is disabled
-  copy:
+  ansible.builtin.copy:
     content: ""
     dest: /etc/apt/sources.list.d/pve-enterprise.list
-    force: yes
+    mode: "0644"
+    force: true
 
 - name: Setup proxmox repo
-  copy:
+  ansible.builtin.copy:
     content: "deb http://download.proxmox.com/debian/pve bookworm pve-no-subscription"
     dest: /etc/apt/sources.list.d/pve-no-subscription.list
-    force: no
-  register: fresh_install
+    mode: "0644"
+    force: false
+  notify:
+    - Fresh install
 
 - name: Get Proxmox repo signing key
   ansible.builtin.get_url:
     url: https://enterprise.proxmox.com/debian/proxmox-release-bookworm.gpg
     dest: /etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg
+    mode: "0644"
 
 - name: Enable repos
   ansible.builtin.lineinfile:
@@ -34,14 +38,8 @@
     regexp: '^deb http://deb.debian.org/debian/ bookworm main'
     line: 'deb http://deb.debian.org/debian/ bookworm main contrib non-free non-free-firmware'
 
-- name: Update system
-  apt:
-    upgrade: full
-    update_cache: yes
-  when: fresh_install.changed
-
 - name: Install pve kernel packages
-  apt:
+  ansible.builtin.apt:
     name:
       - pve-kernel-6.2
       - pve-headers
@@ -52,7 +50,7 @@
     - Disable SB Validation
 
 - name: Install pve packages
-  apt:
+  ansible.builtin.apt:
     name:
       - vim
       - tmux
@@ -67,14 +65,14 @@
       - hashcat
       - htop
       - nvidia-detect
-      - nvidia-driver 
+      - nvidia-driver
       - openvswitch-switch
       - proxmox-ve
     state: present
     update_cache: true
 
 - name: Remove debian kernel
-  apt:
+  ansible.builtin.apt:
     name:
       - linux-image-amd64
       - 'linux-image-6.1*'
@@ -85,7 +83,7 @@
   ansible.builtin.systemd:
     name: docker.service
     state: started
-    enabled: yes
+    enabled: true
 
 - name: Add ghactions user
   ansible.builtin.user:
@@ -113,32 +111,27 @@
   ansible.posix.authorized_key:
     user: astr0n8t
     state: present
-    key: "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIFEhLIyleqCaN3lEJ77AYc/q1uZlqsDJ4PKhBu0dXUa7AAAABHNzaDo= astr0n8t@primary.yubikey"
+    key: "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIFEhLIyleqCaN3lEJ77AYc/q1uZlqsDJ4PKhBu0dXUa7AAAABHNzaDo= astr0n8t@primary.yubikey" # noqa: yaml[line-length]
 
 - name: Add secondary ssh key
   ansible.posix.authorized_key:
     user: astr0n8t
     state: present
-    key: "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIHKBaozeIJ+Gz7+J2dK2VrQPaWerVWH8a9xYIjhvygLmAAAABHNzaDo= astr0n8t@secondary.yubikey"
+    key: "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIHKBaozeIJ+Gz7+J2dK2VrQPaWerVWH8a9xYIjhvygLmAAAABHNzaDo= astr0n8t@secondary.yubikey" # noqa: yaml[line-length]
 
 - name: Add mobile ssh key
   ansible.posix.authorized_key:
     user: astr0n8t
     state: present
-    key: "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGwVUk4wWGiJQjd7P2z2XZ9Gzia0GTy2faoAnyWVEF+jweR2q16C75oIzZbgE1mN3oc4BD9z8rIA1ElXapGI77I= astr0n8t@mobile"
+    key: "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGwVUk4wWGiJQjd7P2z2XZ9Gzia0GTy2faoAnyWVEF+jweR2q16C75oIzZbgE1mN3oc4BD9z8rIA1ElXapGI77I= astr0n8t@mobile" # noqa: yaml[line-length]
 
 - name: Copy sshd config
-  copy:
+  ansible.builtin.copy:
     src: sshd_config
     dest: /etc/ssh/sshd_config
-  register: sshd
-
-- name: Restart sshd
-  ansible.builtin.systemd:
-    name: ssh.service
-    state: restarted
-    enabled: yes
-  when: sshd.changed
+    mode: "0644"
+  notify:
+    - Restart sshd
 
 - name: Enable all updates automatically
   ansible.builtin.lineinfile:
@@ -162,26 +155,25 @@
     insertafter: "Unattended-Upgrade::Allowed-Origins {"
 
 - name: Copy discord notify script
-  template:
+  ansible.builtin.template:
     src: discord-init.sh
     dest: /usr/bin/discord_status_notify
     mode: "0755"
 
 - name: Copy discord notifier
-  copy:
+  ansible.builtin.copy:
     src: discord-notif.service
     dest: /etc/systemd/system/
     mode: "0644"
 
-- name: Enable discord-notif 
+- name: Enable discord-notif
   ansible.builtin.systemd:
     name: discord-notif.service
-    daemon_reload: yes
-    enabled: yes
+    daemon_reload: true
+    enabled: true
 
 - name: Copy discord notifier
-  copy:
+  ansible.builtin.copy:
     src: 80-shutdown-on-battery.rules
     dest: /etc/udev/rules.d/80-shutdown-on-battery.rules
     mode: "0644"
-

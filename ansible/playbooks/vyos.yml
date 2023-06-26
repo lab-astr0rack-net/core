@@ -1,5 +1,6 @@
 ---
-- hosts: vyos
+- name: Run the VyOS role
+  hosts: vyos
   become: true
   gather_facts: false
   roles:
