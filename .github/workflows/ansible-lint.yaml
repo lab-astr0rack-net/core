@@ -6,6 +6,9 @@ on:
       - 'ansible/**'
   workflow_dispatch:
 
+env:
+  ANSIBLE_ROLES_PATH: ansible/roles
+
 jobs:
   ansible-lint:
     name: "Ansible Lint"
