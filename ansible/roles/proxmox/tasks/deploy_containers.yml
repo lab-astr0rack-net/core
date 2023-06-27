@@ -79,7 +79,7 @@
   ansible.builtin.copy:
     src: Caddyfile
     dest: /etc/caddy/Caddyfile
-    mode: "0600"
+    mode: "0644"
 
 - name: Configure pveproxy
   ansible.builtin.blockinfile:
