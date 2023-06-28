@@ -8,6 +8,8 @@ on:
       - 'terraform/vyos/**'
   workflow_dispatch:
 
+concurrency: terraform
+
 jobs:
   terraform:
     name: "Terraform"
