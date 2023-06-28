@@ -8,6 +8,8 @@ on:
       - 'terraform/keycloak/**'
   workflow_dispatch:
 
+concurrency: terraform
+
 jobs:
   terraform:
     name: "Terraform"
