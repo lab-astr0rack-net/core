@@ -15,7 +15,6 @@
 		{
 			"action": "accept",
 			"src":    ["*"],
-			"proto":  "udp",
 			"dst":    ["192.168.55.3:53"],
 		},
 		// Allow generic access to Proxmox WebUI
