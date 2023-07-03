@@ -11,12 +11,6 @@
 			"src": ["*"], 
 			"dst": ["10.0.0.0/16:*"]
 		},
-		// Allow generic access to ephemeral
-		{
-			"action": "accept", 
-			"src": ["*"], 
-			"dst": ["192.168.55.4/24:*"]
-		},
 		// Allow generic access to DNS
 		{
 			"action": "accept",
@@ -60,6 +54,30 @@
 			"src":    ["tag:actions"],
 			"proto":  "tcp",
 			"dst":    ["192.168.55.3:22"],
+		},
+		// Block generic access to router
+		{
+			"action": "block", 
+			"src": ["*"], 
+			"dst": ["192.168.55.1/24:*"]
+		},
+		// Block generic access to proxmox
+		{
+			"action": "block", 
+			"src": ["*"], 
+			"dst": ["192.168.55.2/24:*"]
+		},
+		// Block generic access to vyos
+		{
+			"action": "block", 
+			"src": ["*"], 
+			"dst": ["192.168.55.3/24:*"]
+		},
+		// Allow generic access to ephemeral
+		{
+			"action": "accept", 
+			"src": ["*"], 
+			"dst": ["192.168.55.0/24:*"]
 		},
 	],
 }
