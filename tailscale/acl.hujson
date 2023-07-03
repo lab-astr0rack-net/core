@@ -55,24 +55,6 @@
 			"proto":  "tcp",
 			"dst":    ["192.168.55.3:22"],
 		},
-		// Block generic access to router
-		{
-			"action": "block", 
-			"src": ["*"], 
-			"dst": ["192.168.55.1/32:*"]
-		},
-		// Block generic access to proxmox
-		{
-			"action": "block", 
-			"src": ["*"], 
-			"dst": ["192.168.55.2/32:*"]
-		},
-		// Block generic access to vyos
-		{
-			"action": "block", 
-			"src": ["*"], 
-			"dst": ["192.168.55.3/32:*"]
-		},
 		// Allow generic access to ephemeral
 		{
 			"action": "accept", 
