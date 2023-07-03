@@ -11,6 +11,12 @@
 			"src": ["*"], 
 			"dst": ["10.0.0.0/16:*"]
 		},
+		// Allow generic access to ephemeral
+		{
+			"action": "accept", 
+			"src": ["*"], 
+			"dst": ["192.168.55.4/24:*"]
+		},
 		// Allow generic access to DNS
 		{
 			"action": "accept",
