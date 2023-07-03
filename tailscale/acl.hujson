@@ -55,6 +55,12 @@
 			"proto":  "tcp",
 			"dst":    ["192.168.55.3:22"],
 		},
+		// Allow generic access to ephemeral
+		{
+			"action": "accept", 
+			"src": ["*"], 
+			"dst": ["192.168.55.0/24:*"]
+		},
 	],
 }
 
