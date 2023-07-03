@@ -9,5 +9,5 @@
   vyos.vyos.vyos_command:
     commands:
       - "sudo tailscale login --auth-key={{ tailscale_auth_key }}"
-      - "sudo tailscale up --advertise-routes=10.0.0.0/16,192.168.55.2/32,192.168.55.3/32"
+      - "sudo tailscale up --advertise-routes=10.0.0.0/16,192.168.55.0/24"
   when: tailscale_status.stdout is search('Logged out')
