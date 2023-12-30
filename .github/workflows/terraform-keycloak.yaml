@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/lab-astr0rack-net/terraform:latest
-      options: --cap-add=NET_ADMIN --cap-add=NET_RAW --dns=1.1.1.1 --dns=100.100.100.100 --add-host postgres.lab.astr0rack.net:192.168.55.2 --add-host auth.lab.astr0rack.net:192.168.55.2
+      options: --cap-add=NET_ADMIN --cap-add=NET_RAW --dns=1.1.1.1 --dns=100.100.100.100 --add-host postgres.lab.astr0rack.net:192.168.55.2 --add-host auth.lab.astr0rack.net:192.168.55.2 --add-host keycloak.lab.astr0rack.net:192.168.55.2
       volumes:
         - /var/lib:/var/lib
         - /dev/net/tun:/dev/net/tun
