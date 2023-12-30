@@ -1,0 +1,46 @@
+issuer: https://auth.lab.astr0rack.net
+
+storage:
+  type: sqlite3
+  config:
+    file: /var/sqlite/dex.db
+
+web:
+  http: 0.0.0.0:5556
+
+oauth2:
+  skipApprovalScreen: true
+
+staticClients:
+- id: proxmox
+  redirectURIs:
+  - 'https://proxmox.lab.astr0rack.net'
+  name: 'proxmox.lab.astr0rack.net'
+  secret: '{{ dex_proxmox_client_secret }}'
+
+connectors:
+- type: github
+  # Required field for connector id.
+  id: github
+  # Required field for connector name.
+  name: GitHub
+  config:
+    # Credentials can be string literals or pulled from the environment.
+    clientID: '{{ dex_github_client_id }}'
+    clientSecret: '{{ dex_github_client_secret }}'
+    redirectURI: "https://auth.lab.astr0rack.net/callback"
+    orgs:
+    - name: lab-astr0rack-net
+    loadAllGroups: false
+
+    # Optional choice between 'name' (default), 'slug', or 'both'.
+    #
+    # As an example, group claims for member of 'Site Reliability Engineers' in
+    # Acme organization would yield:
+    #   - ['acme:Site Reliability Engineers'] for 'name'
+    #   - ['acme:site-reliability-engineers'] for 'slug'
+    #   - ['acme:Site Reliability Engineers', 'acme:site-reliability-engineers'] for 'both'
+    teamNameField: slug
+    # flag which will switch from using the internal GitHub id to the users handle (@mention) as the user id.
+    # It is possible for a user to change their own user name but it is very rare for them to do so
+    useLoginAsID: true
