@@ -49,14 +49,14 @@
         - setup-terraform
   tags:
     - setup-terraform
-- name: Configure Proxmox for use with Keycloak
+- name: Configure Proxmox for use with OIDC
   ansible.builtin.include_tasks:
-    file: setup_keycloak.yml
+    file: setup_oidc.yml
     apply:
       tags:
-        - setup-keycloak
+        - setup-oidc
   tags:
-    - setup-keycloak
+    - setup-oidc
 - name: Patch proxmox functions
   ansible.builtin.include_tasks:
     file: patch_proxmox.yml

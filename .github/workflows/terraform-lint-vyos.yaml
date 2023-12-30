@@ -57,10 +57,6 @@ jobs:
         id: plan
         env:
           TF_VAR_pm_password:  ${{ secrets.TF_PROXMOX_PASSWORD }}
-          TF_VAR_keycloak_password:  ${{ secrets.TF_KEYCLOAK_ADMIN_PASSWORD }}
-          TF_VAR_keycloak_github_client_id:  ${{ secrets.TF_KEYCLOAK_GITHUB_CLIENT_ID }}
-          TF_VAR_keycloak_github_client_secret:  ${{ secrets.TF_KEYCLOAK_GITHUB_CLIENT_SECRET }}
-          TF_VAR_keycloak_proxmox_client_secret:  ${{ secrets.TF_KEYCLOAK_PROXMOX_CLIENT_SECRET }}
           PG_CONN_STR: ${{ secrets.TF_POSTGRES_CRED }}
           PG_SCHEMA_NAME: vyos
         run: terraform plan -no-color -input=false
