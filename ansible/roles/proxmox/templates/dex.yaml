@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  init: 
+    image: alpine:latest
+    command: ['chown', '1001:1001', '-R', '/var/sqlite', '&&', 'touch', '/var/sqlite/dex.db']
+    volumes:
+      - dex_data:/var/sqlite/:rw
+
+  dex:
+    container_name: dex
+    image: dexidp/dex
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/dex/config.yaml:/config.yaml:ro
+      - dex_data:/var/sqlite/:rw
+    networks:
+      - rack
+    command: ['dex', 'serve','/config.yaml']
+    depends_on:
+      init:
+        condition: service_completed_successfully
+
+networks:
+  rack:
+    external: true
+
+volumes:
+  dex_data:
+    external: true

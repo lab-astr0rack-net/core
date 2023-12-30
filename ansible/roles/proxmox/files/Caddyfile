@@ -32,25 +32,6 @@ proxmox.{$DOMAIN} {
   }
 }
 
-keycloak.{$DOMAIN} {
-  log {
-    level INFO
-  }
-  # Uncomment this if you want to get a cert via ACME (Let's Encrypt or ZeroSSL).
-  tls {
-    dns cloudflare {env.CF_API_TOKEN}
-  }
-
-  # This setting may have compatibility issues with some browsers
-  # (e.g., attachment downloading on Firefox). Try disabling this
-  # if you encounter issues.
-  encode gzip
-
-  reverse_proxy keycloak:8080 {
-       header_up X-Real-IP {remote_host}
-  }
-}
-
 auth.{$DOMAIN} {
   log {
     level INFO
@@ -65,7 +46,7 @@ auth.{$DOMAIN} {
   # if you encounter issues.
   encode gzip
 
-  reverse_proxy keycloak:8080 {
+  reverse_proxy dex:5556 {
        header_up X-Real-IP {remote_host}
   }
 }

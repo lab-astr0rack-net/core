@@ -8,8 +8,8 @@
       if [ "$REALM_EXIST" == "0" ]
       then
         pveum realm add github --type openid --issuer-url  \
-        https://auth.lab.astr0rack.net/realms/lab --client-id proxmox \
-        --client-key {{ keycloak_proxmox_client_secret }} \
+        https://auth.lab.astr0rack.net --client-id proxmox \
+        --client-key {{ dex_proxmox_client_secret }} \
         --username-claim username --autocreate --default true
         echo "Added realm"
       fi
