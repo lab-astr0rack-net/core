@@ -21,21 +21,35 @@
     dest: /etc/compose/watchtower/docker-compose.yaml
     mode: "0600"
 
-- name: Create keycloak data volume
+- name: Create dex data volume
   community.docker.docker_volume:
-    name: keycloak_db_vol
+    name: dex_data_vol
 
-- name: Create keycloak configuration directory
+- name: Create dex configuration directory
   ansible.builtin.file:
-    path: /etc/compose/keycloak
+    path: /etc/compose/dex
     state: directory
     mode: '0755'
 
 - name: Copy the compose file
   ansible.builtin.template:
-    src: keycloak.yaml
-    dest: /etc/compose/keycloak/docker-compose.yaml
+    src: dex.yaml
+    dest: /etc/compose/dex/docker-compose.yaml
     mode: '0600'
+
+- name: Create dex configuration directory
+  ansible.builtin.file:
+    path: /etc/dex
+    state: directory
+    mode: '0755'
+
+- name: Copy the dex config
+  ansible.builtin.template:
+    src: dex-config.yaml
+    dest: /etc/dex/config.yaml
+    mode: "0600"
+    owner: 1001
+    group: 1001
 
 - name: Create postgres data volume
   community.docker.docker_volume:
@@ -96,9 +110,9 @@
   community.docker.docker_compose:
     project_src: /etc/compose/caddy
 
-- name: Start keycloak
+- name: Start dex 
   community.docker.docker_compose:
-    project_src: /etc/compose/keycloak
+    project_src: /etc/compose/dex
 
 - name: Start postgres
   community.docker.docker_compose:
