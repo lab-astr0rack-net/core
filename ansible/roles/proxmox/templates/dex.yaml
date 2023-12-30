@@ -26,5 +26,5 @@ networks:
     external: true
 
 volumes:
-  dex_data:
+  dex_data_vol:
     external: true
