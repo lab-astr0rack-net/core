@@ -3,7 +3,7 @@ version: '3'
 services:
   init: 
     image: alpine:latest
-    command: ['chown', '1001:1001', '-R', '/var/sqlite', '&&', 'touch', '/var/sqlite/dex.db']
+    command: ['sh', '-c' 'chown 1001:1001 -R /var/sqlite && touch /var/sqlite/dex.db']
     volumes:
       - dex_data_vol:/var/sqlite/:rw
 
