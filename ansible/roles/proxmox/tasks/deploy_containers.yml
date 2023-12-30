@@ -110,7 +110,7 @@
   community.docker.docker_compose:
     project_src: /etc/compose/caddy
 
-- name: Start dex 
+- name: Start dex
   community.docker.docker_compose:
     project_src: /etc/compose/dex
 
