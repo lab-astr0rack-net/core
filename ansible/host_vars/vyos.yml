@@ -355,8 +355,8 @@ fw_rules:
         action: drop
   - name: tailscale_to_local_ipv4
     assignments:
-      from: external-tailscale
-      to: local
+      - from: external-tailscale
+        to: local
     ipv4:
       - destination_group:
           type: address
