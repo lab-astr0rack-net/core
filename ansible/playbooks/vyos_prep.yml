@@ -1,0 +1,68 @@
+---
+- name: Prep vyos
+  hosts: vyos
+  gather_facts: false
+  become: true
+  tasks:
+    - name: Set facts for ansible ssh
+      ansible.builtin.set_fact:
+        ansible_connection: ssh
+        ansible_user: vyos
+
+    - name: Copy discord notify script
+      ansible.builtin.template:
+        src: discord-init.sh
+        dest: /config/user-data/
+        mode: "0755"
+
+    - name: Enable discord notify script
+      ansible.builtin.lineinfile:
+        path: '/config/scripts/vyos-postconfig-bootup.script'
+        regexp: '^/config/user-data/discord-init.sh'
+        line: '/config/user-data/discord-init.sh &1>/dev/null'
+
+    - name: Create bind9 config directory
+      ansible.builtin.file:
+        path: /config/user-data/bind9/etc
+        state: directory
+        mode: '0775'
+        owner: root
+        group: vyattacfg
+        recurse: true
+
+    - name: Copy the named.conf
+      ansible.builtin.template:
+        src: named.conf
+        dest: /config/user-data/bind9/etc/
+        owner: root
+        group: vyattacfg
+        mode: "0660"
+
+    - name: Copy the Zone file
+      ansible.builtin.copy:
+        src: lab-astr0rack-net.zone
+        dest: /config/user-data/bind9/etc/
+        owner: root
+        group: vyattacfg
+        mode: "0660"
+
+    - name: Create bind9 cache directory
+      ansible.builtin.file:
+        path: /config/user-data/bind9/cache
+        state: directory
+        mode: '0775'
+        owner: root
+        group: vyattacfg
+
+    - name: Create bind9 record directory
+      ansible.builtin.file:
+        path: /config/user-data/bind9/records
+        state: directory
+        mode: '0775'
+        owner: root
+
+    - name: Set facts for network connection
+      ansible.builtin.set_fact:
+        ansible_connection: ansible.netcommon.network_cli
+        ansible_network_os: vyos.vyos.vyos
+        ansible_user: vyos

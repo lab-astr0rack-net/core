@@ -26,6 +26,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          submodules: recursive
 
       - name: Setup ssh key
         env:
@@ -51,6 +53,7 @@ jobs:
           VY_LAB_DNS_KEY: ${{ secrets.VY_LAB_DNS_KEY }}
           VY_DISCORD_WEBHOOK: ${{ secrets.VY_DISCORD_WEBHOOK }}
           VY_TAILSCALE_AUTH_KEY: ${{ secrets.VY_TAILSCALE_AUTH_KEY }}
+          VY_USER_PASSWORD_HASH: ${{ secrets.VY_USER_PASSWORD_HASH }}
         run: ansible-playbook playbooks/vyos.yml --tags all,env --extra-vars "ansible_become_password=$ANSIBLE_BECOME_PASSWORD"
 
       - name: Logout of Tailscale

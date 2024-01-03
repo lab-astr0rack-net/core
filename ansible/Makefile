@@ -18,18 +18,29 @@ proxmox-tf:
 	ansible-playbook playbooks/proxmox.yml --tags setup-terraform,bw --ask-become-pass
 
 vyos:
-	ansible-playbook playbooks/vyos.yml --tags all,bw
-vyos-setup:
-	ansible-playbook playbooks/vyos.yml --tags setup,bw
-vyos-dns:
-	ansible-playbook playbooks/vyos.yml --tags dns,bw
-vyos-tailscale:
-	ansible-playbook playbooks/vyos.yml --tags tailscale,bw
+	ansible-playbook playbooks/vyos.yml --tags all
+vyos-dry-run:
+	ansible-playbook playbooks/vyos.yml --tags dry-run,bw --skip-tags always
+vyos-prep:
+	ansible-playbook playbooks/vyos.yml --tags prep,bw
+vyos-users:
+	ansible-playbook playbooks/vyos.yml --tags users,bw
+vyos-vrf:
+	ansible-playbook playbooks/vyos.yml --tags vrf,bw
 vyos-interfaces:
 	ansible-playbook playbooks/vyos.yml --tags interfaces,bw
+vyos-services:
+	ansible-playbook playbooks/vyos.yml --tags services,bw
 vyos-dhcp:
 	ansible-playbook playbooks/vyos.yml --tags dhcp,bw
+vyos-routing:
+	ansible-playbook playbooks/vyos.yml --tags routing,bw
 vyos-nat:
 	ansible-playbook playbooks/vyos.yml --tags nat,bw
 vyos-firewall:
 	ansible-playbook playbooks/vyos.yml --tags firewall,bw
+vyos-containers:
+	ansible-playbook playbooks/vyos.yml --tags containers,bw
+
+lint:
+	ansible-lint -x 'var-naming[no-role-prefix]'
