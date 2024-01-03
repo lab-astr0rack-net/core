@@ -1,0 +1,3 @@
+[submodule "ansible/roles/vyos"]
+	path = ansible/roles/vyos
+	url = git@github.com:astr0n8t/vyos-ansible.git
