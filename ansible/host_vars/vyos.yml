@@ -1,105 +1,146 @@
 ---
-zones:
-  - name: external-rack
-    description: rack
-  - name: external-tailscale
-    description: lab
-  - name: internal-lab
-    description: lab
-  - name: template-net
-    description: template
-  - name: local
-    description: local
-    local: true
+users:
+  - name: vyos
+    pw_hash: "{{ vyos_user_hash }}"
+    public_keys:
+      - name: astr0n8t@primary.yubikey
+        type: sk-ssh-ed25519@openssh.com
+        key: AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIFEhLIyleqCaN3lEJ77AYc/q1uZlqsDJ4PKhBu0dXUa7AAAABHNzaDo=
+      - name: astr0n8t@secondary.yubikey
+        type: sk-ssh-ed25519@openssh.com
+        key: AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIHKBaozeIJ+Gz7+J2dK2VrQPaWerVWH8a9xYIjhvygLmAAAABHNzaDo=
+      - name: astr0n8t@mobile
+        type: ecdsa-sha2-nistp256
+        key: AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGwVUk4wWGiJQjd7P2z2XZ9Gzia0GTy2faoAnyWVEF+jweR2q16C75oIzZbgE1mN3oc4BD9z8rIA1ElX
+      - name: ghactions@github.com
+        type: ssh-ed25519
+        key: AAAAC3NzaC1lZDI1NTE5AAAAIH8ts84bR4nen8+Kk6I48MDkg8WA+gnuoUFuCmG9B6Xg
 interfaces:
-  - vyos_if: "tailscale0"
-    desc: "tailscale"
-    enabled: "true"
-    external: true
-    zone: "external-tailscale"
-  - vyos_if: "eth0"
-    desc: "Rack"
-    enabled: "true"
-    zone: "external-rack"
-  - vyos_if: "eth1"
-    desc: "LABDC"
-    enabled: "true"
-    ipv4_addr: "10.0.0.1/24"
+  - name: eth0
+    type: ethernet
+    desc: Rack
+    mac: 92:07:2b:55:57:c8
+    ipv4_addr: dhcp
+    zone: external-rack
+  - name: eth1
+    type: ethernet
+    desc: LABDC
+    mac: aa:06:c0:1f:48:d1
+    ipv4_addr: 10.0.0.1/24
     dhcp:
-      subnet: "10.0.0.0/24"
-      gw: "10.0.0.1"
-      dns: "10.0.0.1"
-      domain_name: "lab.astr0rack.net"
-      start: "10.0.0.100"
-      stop: "10.0.0.200"
+      subnet: 10.0.0.0/24
+      gw: 10.0.0.1
+      dns_servers:
+        - 10.0.0.1
+      domain_name: lab.astr0rack.net
+      start: 10.0.0.100
+      stop: 10.0.0.200
       static_mappings:
         - name: dc-01
-          mac: "22:ca:a4:90:bb:04"
-          ipv4: "10.0.0.50"
+          mac: 22:ca:a4:90:bb:04
+          ipv4: 10.0.0.50
         - name: dc-02
-          mac: "ea:87:14:1a:6d:7f"
-          ipv4: "10.0.0.51"
-    zone: "internal-lab"
-  - vyos_if: "eth2"
-    desc: "LABDMZ"
-    enabled: "true"
-    ipv4_addr: "10.0.10.1/24"
+          mac: ea:87:14:1a:6d:7f
+          ipv4: 10.0.0.51
+  - name: eth2
+    type: ethernet
+    desc: LABDMZ
+    mac: a6:7e:41:70:6b:ca
+    ipv4_addr: 10.0.10.1/24
     dhcp:
-      subnet: "10.0.10.0/24"
-      gw: "10.0.10.1"
-      dns: "10.0.10.1"
-      domain_name: "lab.astr0rack.net"
-      start: "10.0.10.100"
-      stop: "10.0.10.200"
+      subnet: 10.0.10.0/24
+      gw: 10.0.10.1
+      dns_servers:
+        - 10.0.10.1
+      domain_name: lab.astr0rack.net
+      start: 10.0.10.100
+      stop: 10.0.10.200
       static_mappings:
         - name: dns-01
-          mac: "36:aa:9e:ec:02:de"
-          ipv4: "10.0.10.10"
+          mac: 36:aa:9e:ec:02:de
+          ipv4: 10.0.10.10
         - name: web-01
-          mac: "92:65:8b:40:2a:7e"
-          ipv4: "10.0.10.20"
-    zone: "internal-lab"
-  - vyos_if: "eth3"
-    desc: "LABLAN"
-    enabled: "true"
-    ipv4_addr: "10.0.20.1/24"
+          mac: 92:65:8b:40:2a:7e
+          ipv4: 10.0.10.20
+  - name: eth3
+    type: ethernet
+    desc: LABLAN
+    mac: ba:e1:dc:d6:d5:80
+    ipv4_addr: 10.0.20.1/24
     dhcp:
-      subnet: "10.0.20.0/24"
-      gw: "10.0.20.1"
-      dns: "10.0.20.1"
-      domain_name: "lab.astr0rack.net"
-      start: "10.0.20.10"
-      stop: "10.0.20.200"
-    zone: "internal-lab"
-  - vyos_if: "eth4"
-    desc: "LABC2"
-    enabled: "true"
-    ipv4_addr: "10.0.255.1/24"
+      subnet: 10.0.20.0/24
+      gw: 10.0.20.1
+      dns_servers:
+        - 10.0.20.1
+      domain_name: lab.astr0rack.net
+      start: 10.0.20.10
+      stop: 10.0.20.200
+  - name: eth4
+    type: ethernet
+    desc: LABC2
+    mac: a6:3e:71:ea:29:0d
+    ipv4_addr: 10.0.255.1/24
     dhcp:
-      subnet: "10.0.255.0/24"
-      gw: "10.0.255.1"
-      dns: "10.0.255.1"
-      domain_name: "lab.astr0rack.net"
-      start: "10.0.255.150"
-      stop: "10.0.255.200"
+      subnet: 10.0.255.0/24
+      gw: 10.0.255.1
+      dns_servers:
+        - 10.0.255.1
+      domain_name: lab.astr0rack.net
+      start: 10.0.255.150
+      stop: 10.0.255.200
       static_mappings:
         - name: c2
-          mac: "1a:f4:ef:e2:f6:fe"
-          ipv4: "10.0.255.100"
-    zone: "internal-lab"
-  - vyos_if: "eth5"
-    desc: "TEMPLATENET"
-    enabled: "true"
-    ipv4_addr: "10.0.1.1/24"
+          mac: 1a:f4:ef:e2:f6:fe
+          ipv4: 10.0.255.100
+  - name: eth5
+    type: ethernet
+    desc: TEMPLATENET
+    mac: 56:e0:3a:73:1a:1f
+    ipv4_addr: 10.0.1.1/24
     dhcp:
-      subnet: "10.0.1.0/24"
-      gw: "10.0.1.1"
-      dns: "1.1.1.1"
-      domain_name: "lab.astr0rack.net"
-      start: "10.0.1.10"
-      stop: "10.0.1.200"
-    zone: "template-net"
-fw_addresses:
+      subnet: 10.0.1.0/24
+      gw: 10.0.1.1
+      dns_servers:
+        - 1.1.1.1
+      domain_name: lab.astr0rack.net
+      start: 10.0.1.10
+      stop: 10.0.1.200
+static_routes:
+  - subnet: 0.0.0.0/0
+    dhcp_interface: eth0
+source_nat:
+  - outbound_interface: eth0
+    source_address: 10.0.0.0/16
+    translation_address: masquerade
+dns:
+  search_domain: lab.astr0rack.net
+  servers:
+    - 1.1.1.1
+    - 1.0.0.1
+  host_name: vyos-core
+  domain_name: lab.astr0rack.net
+ntp:
+  listen_address: 0.0.0.0
+  servers:
+    - 0.pool.ntp.org
+    - 1.pool.ntp.org
+    - 2.pool.ntp.org
+  allowed_clients:
+    - 10.0.0.0/16
+ssh:
+  disable_password_authentication: true
+  disable_host_validation: true
+  listen_address: 0.0.0.0
+fw_global_options:
+  - name: all-ping
+    setting: enable
+  - name: state-policy related action
+    setting: accept
+  - name: state-policy established action
+    setting: accept
+  - name: state-policy invalid action
+    setting: drop
+fw_address_groups:
   - name: dc-01
     ip: 10.0.0.50
     groups:
@@ -143,7 +184,7 @@ fw_addresses:
       - lab-external
       - lab-reachable-tailscale
   - name: rack-space
-    ip: 192.168.0.0-192.168.255.255
+    ip: 10.64.1.2-10.64.1.3
     groups:
       - rack-ip-space
   - name: lab-space
@@ -158,188 +199,250 @@ fw_addresses:
     ip: 192.168.55.4-192.168.55.254
     groups:
       - dev-space
-fw_policies:
-  mgmt:
+fw_zones:
+  - name: external-rack
+    description: rack
+    interfaces:
+      - eth0
+  - name: external-tailscale
+    description: lab
+    interfaces:
+      - tailscale0
+  - name: internal-lab
+    description: lab
+    interfaces:
+      - eth1
+      - eth2
+      - eth3
+      - eth4
+  - name: template-net
+    description: template
+    interfaces:
+      - eth5
+  - name: local
+    description: local
+    interfaces:
+      - local-zone
+fw_rules:
+  - name: rack_to_local_ipv4
+    assignments:
+      - from: external-rack
+        to: local
     ipv4:
-      - name: rack_to_local_ipv4
-        zones:
-          from: external-rack
-          to: local
-        rules:
-          - protocol: tcp
-            port: 22
-            action: accept
-  ipv4:
-    - name: rack_to_local_ipv4
-      zones:
-        from: external-rack
-        to: local
-      rules:
-        - protocol: tcp
-          port: 22
-          action: accept
-        - protocol: tcp
-          port: 53
-          action: accept
-        - protocol: udp
-          port: 53
-          action: accept
-        - protocol: udp
-          port: 41641
-          action: accept
-        - protocol: icmp
-          action: accept
-        - protocol: all
-          action: drop
-    - name: lab_to_rack_ipv4
-      zones:
-        from: internal-lab
+      - protocol: tcp
+        destination_port: 22
+        action: accept
+      - protocol: tcp
+        destination_port: 53
+        action: accept
+      - protocol: udp
+        destination_port: 53
+        action: accept
+      - protocol: udp
+        destination_port: 41641
+        action: accept
+      - protocol: icmp
+        action: accept
+      - protocol: all
+        action: drop
+  - name: lab_to_rack_ipv4
+    assignments:
+      - from: internal-lab
         to: external-rack
-      rules:
-        - source_groups: lab-ip-space
-          dest_groups: rack-ip-space
-          protocol: all
-          action: drop
-        - source_groups: lab-ip-space
-          protocol: tcp_udp
-          action: accept
-        - protocol: all
-          action: drop
-    - name: local_to_rack_ipv4
-      zones:
-        from: local
+    ipv4:
+      - source_group:
+          type: address
+          name: lab-ip-space
+        destination_group:
+          type: address
+          name: rack-ip-space
+        protocol: all
+        action: drop
+      - source_group:
+          type: address
+          name: lab-ip-space
+        protocol: tcp_udp
+        action: accept
+      - protocol: all
+        action: drop
+  - name: local_to_rack_ipv4
+    assignments:
+      - from: local
         to: external-rack
-      rules:
-        - dest_groups: lab-external
-          protocol: tcp_udp
-          action: accept
-        - dest_groups: lab-external
-          protocol: icmp
-          action: accept
-        - dest_groups: rack-ip-space
-          protocol: all
-          action: drop
-        - protocol: tcp_udp
-          action: accept
-        - protocol: icmp
-          action: accept
-        - protocol: all
-          action: drop
-    - name: local_to_lab_ipv4
-      zones:
-        from: local
+    ipv4:
+      - destination_group:
+          type: address
+          name: lab-external
+        protocol: tcp_udp
+        action: accept
+      - destination_group:
+          type: address
+          name: lab-external
+        protocol: icmp
+        action: accept
+      - destination_group:
+          type: address
+          name: rack-ip-space
+        protocol: all
+        action: drop
+      - protocol: tcp_udp
+        action: accept
+      - protocol: icmp
+        action: accept
+      - protocol: all
+        action: drop
+  - name: local_to_lab_ipv4
+    assignments:
+      - from: local
         to: internal-lab
-      rules:
-        - protocol: all
-          action: accept
-    - name: lab_to_local_ipv4
-      zones:
-        from: internal-lab
+    ipv4:
+      - protocol: all
+        action: accept
+  - name: lab_to_local_ipv4
+    assignments:
+      - from: internal-lab
         to: local
-      rules:
-        - protocol: udp
-          port: 53
-          action: accept
-        - protocol: udp
-          port: 123
-          action: accept
-        - protocol: all
-          action: drop
-    - name: tailscale_to_lab_ipv4
-      zones:
-        from: external-tailscale
+    ipv4:
+      - protocol: udp
+        destination_port: 53
+        action: accept
+      - protocol: udp
+        destination_port: 123
+        action: accept
+      - protocol: all
+        action: drop
+  - name: tailscale_to_lab_ipv4
+    assignments:
+      - from: external-tailscale
         to: internal-lab
-      rules:
-        - protocol: all
-          action: accept
-    - name: tailscale_to_external_rack_ipv4
-      zones:
-        from: external-tailscale
+    ipv4:
+      - protocol: all
+        action: accept
+  - name: tailscale_to_external_rack_ipv4
+    assignments:
+      - from: external-tailscale
         to: external-rack
-      rules:
-        - dest_groups: external-pm
-          protocol: tcp
-          port: 22
-          action: accept
-        - dest_groups: external-pm
-          protocol: tcp
-          port: 443
-          action: accept
-        - dest_groups: external-pm
-          protocol: tcp
-          port: 5432
-          action: accept
-        - dest_groups: dev-space
-          protocol: tcp_udp
-          action: accept
-        - dest_groups: lab-reachable-tailscale
-          protocol: icmp
-          action: accept
-        - protocol: all
-          action: drop
-    - name: tailscale_to_local_ipv4
-      zones:
-        from: external-tailscale
-        to: local
-      rules:
-        - dest_groups: external-vyos
-          protocol: tcp_udp
-          port: 53
-          action: accept
-        - dest_groups: external-vyos
-          protocol: tcp
-          port: 22
-          action: accept
-        - protocol: icmp
-          action: accept
-        - protocol: all
-          action: drop
-    - name: local_to_tailscale_ipv4
-      zones:
-        from: local
+    ipv4:
+      - destination_group:
+          type: address
+          name: external-pm
+        protocol: tcp
+        destination_port: 22
+        action: accept
+      - destination_group:
+          type: address
+          name: external-pm
+        protocol: tcp
+        destination_port: 443
+        action: accept
+      - destination_group:
+          type: address
+          name: external-pm
+        protocol: tcp
+        destination_port: 5432
+        action: accept
+      - destination_group:
+          type: address
+          name: dev-space
+        protocol: tcp_udp
+        action: accept
+      - destination_group:
+          type: address
+          name: lab-reachable-tailscale
+        protocol: icmp
+        action: accept
+      - protocol: all
+        action: drop
+  - name: tailscale_to_local_ipv4
+    assignments:
+      from: external-tailscale
+      to: local
+    ipv4:
+      - destination_group:
+          type: address
+          name: external-vyos
+        protocol: tcp_udp
+        destination_port: 53
+        action: accept
+      - destination_group:
+          type: address
+          name: external-vyos
+        protocol: tcp
+        destination_port: 22
+        action: accept
+      - protocol: icmp
+        action: accept
+      - protocol: all
+        action: drop
+  - name: local_to_tailscale_ipv4
+    assignments:
+      - from: local
         to: external-tailscale
-      rules:
-        - dest_groups: tailscale-dns
-          protocol: tcp_udp
-          port: 53
-          action: accept
-        - protocol: icmp
-          action: accept
-        - protocol: all
-          action: drop
-    - name: tailscale_to_template_net_ipv4
-      zones:
-        from: external-tailscale
+    ipv4:
+      - destination_group:
+          type: address
+          name: tailscale-dns
+        protocol: tcp_udp
+        destination_port: 53
+        action: accept
+      - protocol: icmp
+        action: accept
+      - protocol: all
+        action: drop
+  - name: tailscale_to_template_net_ipv4
+    assignments:
+      - from: external-tailscale
         to: template-net
-      rules:
-        - protocol: tcp
-          port: 22
-          action: accept
-        - protocol: icmp
-          action: accept
-        - protocol: all
-          action: drop
-    - name: template_net_to_tailscale_ipv4
-      zones:
-        from: template-net
+    ipv4:
+      - protocol: tcp
+        destination_port: 22
+        action: accept
+      - protocol: icmp
+        action: accept
+      - protocol: all
+        action: drop
+  - name: template_net_to_tailscale_ipv4
+    assignments:
+      - from: template-net
         to: external-tailscale
-      rules:
-        - protocol: tcp_udp
-          action: accept
-        - protocol: icmp
-          action: accept
-        - protocol: all
-          action: drop
-    - name: template_to_rack_ipv4
-      zones:
-        from: template-net
+    ipv4:
+      - protocol: tcp_udp
+        action: accept
+      - protocol: icmp
+        action: accept
+      - protocol: all
+        action: drop
+  - name: template_to_rack_ipv4
+    assignments:
+      - from: template-net
         to: external-rack
-      rules:
-        - dest_groups: rack-ip-space
-          protocol: all
-          action: drop
-        - source_groups: lab-ip-space
-          protocol: tcp_udp
-          action: accept
-        - protocol: all
-          action: drop
+    ipv4:
+      - destination_group:
+          type: address
+          name: rack-ip-space
+        protocol: all
+        action: drop
+      - source_group:
+          type: address
+          name: lab-ip-space
+        protocol: tcp_udp
+        action: accept
+      - protocol: all
+        action: drop
+containers:
+  - name: bind9
+    image: docker.io/ubuntu/bind9:latest
+    network: allow-host-networks
+    environment:
+      - key: BIND9_USER
+        value: root
+    volumes:
+      - name: config
+        destination: /etc/bind
+        source: /config/user-data/bind9/etc
+      - name: cache
+        destination: /var/cache/bind
+        source: /config/user-data/bind9/cache
+      - name: records
+        destination: /var/lib/bind
+        source: /config/user-data/bind9/records

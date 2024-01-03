@@ -19,6 +19,8 @@ proxmox-tf:
 
 vyos:
 	ansible-playbook playbooks/vyos.yml --tags all,bw
+vyos-dry-run:
+	ansible-playbook playbooks/vyos.yml --tags dry-run,bw --skip-tags always
 vyos-setup:
 	ansible-playbook playbooks/vyos.yml --tags setup,bw
 vyos-dns:
@@ -33,3 +35,6 @@ vyos-nat:
 	ansible-playbook playbooks/vyos.yml --tags nat,bw
 vyos-firewall:
 	ansible-playbook playbooks/vyos.yml --tags firewall,bw
+
+lint:
+	ansible-lint -x 'var-naming[no-role-prefix]'
