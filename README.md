@@ -10,11 +10,14 @@ This repository holds the configuration for the core of the lab:
 
 ## Proxmox
 
-The Proxmox host is provisioned using Ansible and is meant to turn a Debian 11 host into a Proxmox VE 7 server.
+The Proxmox host is provisioned using Ansible and is meant to turn a Debian 12 host into a Proxmox VE 8 server.
 
 The webui is hosted behind a Caddy container with Let's Encrypt TLS.
 
 This also builds a Postgres container for holding Terraform state.
+
+Dex is included for SSO with GitHub and adds a OIDC realm to Proxmox.
+It also patches Proxmox so that any user authenticated via GitHub (or any OIDC realm) is added to the github (or name of the oidc realm) group for permissions management.
 
 Watchtower is also included for automatic container updates.
 
