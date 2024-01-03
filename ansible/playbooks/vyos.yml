@@ -1,4 +1,26 @@
 ---
+- name: Get variables from bitwarden
+  hosts: vyos
+  gather_facts: false
+  tags: [never, bw]
+  tasks:
+    - name: Include variables from Bitwarden
+      ansible.builtin.include_vars: '../vars/bw.yml'
+
+- name: Get variables from env
+  hosts: vyos
+  gather_facts: false
+  tags: [never, env]
+  tasks:
+    - name: Include variables from environment
+      ansible.builtin.include_vars: '../vars/env.yml'
+
+- name: Run vyos prep
+  import_playbook: 'vyos_prep.yml'
+
+- name: Run vyos tailscale setup
+  import_playbook: 'tailscale_setup.yml'
+
 - name: Run the VyOS role
   hosts: vyos
   become: true

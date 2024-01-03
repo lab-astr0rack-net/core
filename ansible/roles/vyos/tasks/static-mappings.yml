@@ -1,7 +1,0 @@
----
-- name: "Configure DHCP Static Mappings: {{ interface.desc }}"
-  vyos.vyos.vyos_config:
-    lines:
-      - "set service dhcp-server shared-network-name {{ interface.desc }} subnet {{ interface.dhcp.subnet }} static-mapping {{ item.name }} mac-address '{{ item.mac }}'" # noqa: yaml[line-length]
-      - "set service dhcp-server shared-network-name {{ interface.desc }} subnet {{ interface.dhcp.subnet }} static-mapping {{ item.name }} ip-address '{{ item.ipv4 }}'" # noqa: yaml[line-length]
-  loop: "{{ interface.dhcp.static_mappings }}"

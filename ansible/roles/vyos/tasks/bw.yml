@@ -1,3 +1,0 @@
----
-- name: Include variables from Bitwarden
-  ansible.builtin.include_vars: bw.yml
