@@ -7,7 +7,7 @@
 
 - name: Download latest VyOS Build
   ansible.builtin.get_url:
-    url: https://github.com/astr0n8t/vyos-builds/releases/latest/download/vyos-qemu-1.4-tailscale.qcow2
+    url: https://github.com/astr0n8t/vyos-builds/releases/latest/download/vyos-qemu-1.4-tailscale-NoCloud.qcow2
     dest: /tmp/vyos-qemu-latest-amd64.qcow2
     mode: "0644"
 
