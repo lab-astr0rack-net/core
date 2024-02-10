@@ -131,7 +131,7 @@ ssh:
   disable_password_authentication: true
   disable_host_validation: true
   listen_address: 0.0.0.0
-fw_global_options:
+firewall_global_options:
   - name: all-ping
     setting: enable
   - name: state-policy related action
@@ -140,7 +140,7 @@ fw_global_options:
     setting: accept
   - name: state-policy invalid action
     setting: drop
-fw_address_groups:
+firewall_address_groups:
   - name: dc-01
     ip: 10.0.0.50
     groups:
@@ -199,7 +199,7 @@ fw_address_groups:
     ip: 192.168.55.4-192.168.55.254
     groups:
       - dev-space
-fw_zones:
+firewall_zones:
   - name: external-rack
     description: rack
     interfaces:
@@ -223,7 +223,7 @@ fw_zones:
     description: local
     interfaces:
       - local-zone
-fw_rules:
+firewall_rules:
   - name: rack_to_local_ipv4
     assignments:
       - from: external-rack
