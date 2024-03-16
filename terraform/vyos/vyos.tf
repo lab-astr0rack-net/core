@@ -41,6 +41,10 @@ resource "proxmox_vm_qemu" "vyos-core" {
     model  = "e1000"
   }
   network {
+    bridge = "vmbr20"
+    model  = "e1000"
+  }
+  network {
     bridge = "vmbr99"
     model  = "e1000"
   }
