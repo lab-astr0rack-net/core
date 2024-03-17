@@ -254,7 +254,7 @@ firewall_rules:
       - from: external-rack
         to: dev-net
     ipv4:
-      - protocol: tcp
+      - protocol: tcp_udp
         destination_port: 22000
         destination_address: 10.100.0.3
         action: accept
