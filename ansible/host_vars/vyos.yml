@@ -105,7 +105,7 @@ interfaces:
       domain_name: lab.astr0rack.net
       start: 10.0.1.10
       stop: 10.0.1.200
-  - name: eth6
+  - name: eth7
     type: ethernet
     desc: DEVNET 
     mac: 56:e0:3a:73:1a:1f
@@ -139,7 +139,7 @@ ntp:
     - 1.pool.ntp.org
     - 2.pool.ntp.org
   allowed_clients:
-    - 10.0.0.0/16
+    - 10.0.0.0/8
 ssh:
   disable_password_authentication: true
   disable_host_validation: true
@@ -239,7 +239,7 @@ firewall_zones:
   - name: dev-net
     description: dev-net 
     interfaces:
-      - eth6
+      - eth7
   - name: local
     description: local
     interfaces:
