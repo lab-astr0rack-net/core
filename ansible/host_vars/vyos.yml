@@ -125,6 +125,10 @@ source_nat:
   - outbound_interface: eth0
     source_address: 10.0.0.0/8
     translation_address: masquerade
+destination_nat:
+  - inbound_interface: eth0
+    destination_port: 22000
+    translation_address: 10.100.0.3
 dns:
   search_domain: lab.astr0rack.net
   servers:
@@ -245,6 +249,17 @@ firewall_zones:
     interfaces:
       - local-zone
 firewall_rules:
+  - name: rack_to_dev_ipv4
+    assignments:
+      - from: external-rack
+        to: dev-net
+    ipv4:
+      - protocol: tcp
+        destination_port: 22000
+        destination_address: 10.100.0.3
+        action: accept
+      - protocol: all
+        action: drop
   - name: rack_to_local_ipv4
     assignments:
       - from: external-rack
