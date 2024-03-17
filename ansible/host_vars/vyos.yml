@@ -123,7 +123,7 @@ static_routes:
     dhcp_interface: eth0
 source_nat:
   - outbound_interface: eth0
-    source_address: 10.0.0.0/16
+    source_address: 10.0.0.0/8
     translation_address: masquerade
 dns:
   search_domain: lab.astr0rack.net
