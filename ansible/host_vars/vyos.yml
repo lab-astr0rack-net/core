@@ -128,6 +128,7 @@ source_nat:
 destination_nat:
   - inbound_interface: eth0
     destination_port: 22000
+    protocol: tcp_udp
     translation_address: 10.100.0.3
 dns:
   search_domain: lab.astr0rack.net
