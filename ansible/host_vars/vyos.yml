@@ -108,7 +108,7 @@ interfaces:
   - name: eth6
     type: ethernet
     desc: DEVNET 
-    mac: 56:E0:3A:73:1A:1F
+    mac: 56:e0:3a:73:1a:1f
     ipv4_addr: 10.100.0.1/24
     dhcp:
       subnet: 10.100.0.0/24
