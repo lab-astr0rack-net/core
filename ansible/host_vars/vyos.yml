@@ -274,6 +274,9 @@ firewall_rules:
         destination_port: 22000
         destination_address: 10.100.0.3
         action: accept
+      - protocol: tcp
+        destination_port: 3389
+        action: accept
       - protocol: all
         action: drop
   - name: rack_to_local_ipv4
