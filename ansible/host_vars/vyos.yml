@@ -130,6 +130,21 @@ destination_nat:
     destination_port: 22000
     protocol: tcp_udp
     translation_address: 10.100.0.3
+  - inbound_interface: eth0
+    destination_port: 3393
+    protocol: tcp
+    translation_address: 10.100.0.3
+    translation_port: 3389
+  - inbound_interface: eth0
+    destination_port: 3396
+    protocol: tcp
+    translation_address: 10.100.0.6
+    translation_port: 3389
+  - inbound_interface: eth0
+    destination_port: 3397
+    protocol: tcp
+    translation_address: 10.100.0.7
+    translation_port: 3389
 dns:
   search_domain: lab.astr0rack.net
   servers:
