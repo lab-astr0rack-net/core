@@ -341,7 +341,7 @@ firewall_rules:
           type: address
           name: rack-ip-space
         protocol: all
-        action: drop
+        action: accept 
       - source_group:
           type: address
           name: dev-ip-space
