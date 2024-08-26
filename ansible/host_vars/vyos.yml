@@ -272,7 +272,7 @@ firewall_zones:
       - eth2
       - eth3
       - eth4
-      - eth8
+      - eth6
   - name: template-net
     description: template
     interfaces:
