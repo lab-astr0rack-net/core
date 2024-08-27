@@ -161,6 +161,10 @@ destination_nat:
     protocol: tcp
     translation_address: 10.100.0.7
     translation_port: 3389
+  - inbound_interface: eth0
+    destination_port: 3398
+    translation_address: 10.100.0.17
+    translation_port: 3389
 dns:
   search_domain: lab.astr0rack.net
   servers:
