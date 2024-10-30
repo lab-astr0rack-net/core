@@ -12,6 +12,9 @@ users:
       - name: astr0n8t@mobile
         type: ecdsa-sha2-nistp256
         key: AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGwVUk4wWGiJQjd7P2z2XZ9Gzia0GTy2faoAnyWVEF+jweR2q16C75oIzZbgE1mN3oc4BD9z8rIA1ElX
+      - name: astr0n8t@laptop
+        type: ecdsa-sha2-nistp256 
+        key: AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBAS4p259ptqrLRvV5A8Ytx90IIyQkhGrbe3PBF4evUrrwVe1pHHUudh2tr00k4S1DTi6RtuZUEU+7aQS2ZLNmv4=
       - name: ghactions@github.com
         type: ssh-ed25519
         key: AAAAC3NzaC1lZDI1NTE5AAAAIH8ts84bR4nen8+Kk6I48MDkg8WA+gnuoUFuCmG9B6Xg
