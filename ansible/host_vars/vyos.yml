@@ -131,6 +131,25 @@ interfaces:
       domain_name: lab.astr0rack.net
       start: 10.100.0.10
       stop: 10.100.0.200
+      static_mappings:
+        - name: guacamole
+          mac: 06:de:fb:c7:72:2d
+          ipv4: 10.100.0.2
+        - name: dev
+          mac: fe:5f:66:7b:7a:65
+          ipv4: 10.100.0.3
+        - name: sidewinder
+          mac: 8a:86:b4:cc:19:de
+          ipv4: 10.100.0.4
+        - name: frostbite
+          mac: 	1a:12:9d:5c:26:52
+          ipv4: 10.100.0.5
+        - name: sec660-win
+          mac: 	bc:24:11:8a:69:96
+          ipv4: 10.100.0.6
+        - name: gpu-test
+          mac: 	bc:24:11:96:7d:07
+          ipv4: 10.100.0.7
 static_routes:
   - subnet: 0.0.0.0/0
     dhcp_interface: eth0

@@ -16,5 +16,12 @@ vyos            IN      A       192.168.55.3
 
 proxmox         IN      A       192.168.55.2
 postgres        IN      A       192.168.55.2
-auth	        IN      A       192.168.55.2
+auth            IN      A       192.168.55.2
 keycloak        IN      A       192.168.55.2
+
+guac            IN      A       192.168.55.4
+dev             IN      A       10.100.0.3
+sidewinder      IN      A       10.100.0.4
+sec660-win      IN      A       10.100.0.6
+gpu-test        IN      A       10.100.0.7
+
