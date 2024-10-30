@@ -136,36 +136,15 @@ static_routes:
     dhcp_interface: eth0
 source_nat:
   - outbound_interface: eth0
-    source_address: 10.0.0.0/8
+    source_address: 10.0.0.0/16
     translation_address: masquerade
   - outbound_interface: eth0
     source_address: 192.168.230.0/24
     translation_address: masquerade
-destination_nat:
-  - inbound_interface: eth0
-    destination_port: 22000
-    protocol: tcp_udp
-    translation_address: 10.100.0.3
-  - inbound_interface: eth0
-    destination_port: 3393
-    protocol: tcp
-    translation_address: 10.100.0.3
-    translation_port: 3389
-  - inbound_interface: eth0
-    destination_port: 3396
-    protocol: tcp
-    translation_address: 10.100.0.6
-    translation_port: 3389
-  - inbound_interface: eth0
-    destination_port: 3397
-    protocol: tcp
-    translation_address: 10.100.0.7
-    translation_port: 3389
-  - inbound_interface: eth0
-    destination_port: 3398
-    protocol: tcp
-    translation_address: 10.100.0.17
-    translation_port: 3389
+  - outbound_interface: eth0
+    source_address: 10.0.0.0/8
+    destination_address: '!192.168.0.0/16'
+    translation_address: masquerade
 dns:
   search_domain: lab.astr0rack.net
   servers:
@@ -302,6 +281,9 @@ firewall_rules:
         action: accept
       - protocol: tcp
         destination_port: 3389
+        action: accept
+      - protocol: tcp
+        destination_port: 22
         action: accept
       - protocol: all
         action: drop
