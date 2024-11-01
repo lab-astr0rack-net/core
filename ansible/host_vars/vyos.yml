@@ -163,6 +163,9 @@ source_nat:
   - outbound_interface: eth0
     source_address: 192.168.230.0/24
     translation_address: masquerade
+  - source_address: 10.0.0.0/8
+    destination_address: '192.168.55.2-192.168.55.254'
+    translation_address: masquerade
   - outbound_interface: eth0
     source_address: 10.0.0.0/8
     destination_address: '!192.168.0.0/16'
