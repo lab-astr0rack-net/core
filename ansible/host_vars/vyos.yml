@@ -13,7 +13,7 @@ users:
         type: ecdsa-sha2-nistp256
         key: AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGwVUk4wWGiJQjd7P2z2XZ9Gzia0GTy2faoAnyWVEF+jweR2q16C75oIzZbgE1mN3oc4BD9z8rIA1ElX
       - name: astr0n8t@laptop
-        type: ecdsa-sha2-nistp256 
+        type: ecdsa-sha2-nistp256
         key: AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBAS4p259ptqrLRvV5A8Ytx90IIyQkhGrbe3PBF4evUrrwVe1pHHUudh2tr00k4S1DTi6RtuZUEU+7aQS2ZLNmv4=
       - name: ghactions@github.com
         type: ssh-ed25519
@@ -111,7 +111,7 @@ interfaces:
   - name: eth6
     type: ethernet
     desc: SWAN
-    mac: d2:dc:b9:42:47:4f 
+    mac: d2:dc:b9:42:47:4f
     ipv4_addr: 192.168.230.1/24
     dhcp:
       subnet: 192.168.230.0/24
@@ -123,7 +123,7 @@ interfaces:
       stop: 192.168.230.200
   - name: eth7
     type: ethernet
-    desc: DEVNET 
+    desc: DEVNET
     mac: 56:e0:3a:73:1a:1f
     ipv4_addr: 10.100.0.1/24
     dhcp:
@@ -145,13 +145,13 @@ interfaces:
           mac: 8a:86:b4:cc:19:de
           ipv4: 10.100.0.4
         - name: frostbite
-          mac: 	1a:12:9d:5c:26:52
+          mac: 1a:12:9d:5c:26:52
           ipv4: 10.100.0.5
         - name: sec660-win
-          mac: 	bc:24:11:8a:69:96
+          mac: bc:24:11:8a:69:96
           ipv4: 10.100.0.6
         - name: gpu-test
-          mac: 	bc:24:11:96:7d:07
+          mac: bc:24:11:96:7d:07
           ipv4: 10.100.0.7
 static_routes:
   - subnet: 0.0.0.0/0
@@ -287,7 +287,7 @@ firewall_zones:
     interfaces:
       - eth5
   - name: dev-net
-    description: dev-net 
+    description: dev-net
     interfaces:
       - eth7
   - name: local
@@ -363,10 +363,10 @@ firewall_rules:
           name: dev-ip-space
         destination_group:
           type: address
-          name: external-pm 
+          name: external-pm
         destination_port: 443
         protocol: tcp
-        action: accept 
+        action: accept
       - source_group:
           type: address
           name: dev-ip-space
@@ -374,7 +374,7 @@ firewall_rules:
           type: address
           name: rack-ip-space
         protocol: all
-        action: accept 
+        action: accept
       - source_group:
           type: address
           name: dev-ip-space
@@ -570,7 +570,7 @@ containers:
       - name: records
         destination: /var/lib/bind
         source: /config/user-data/bind9/records
-  - name: tailscale 
+  - name: tailscale
     image: docker.io/tailscale/tailscale:latest
     network: allow-host-networks
     privileged: 'true'
@@ -588,11 +588,11 @@ containers:
         value: vyos-lab
       - key: TS_ROUTES
         value: "10.0.0.0/16,192.168.55.2/32,192.168.55.3/32"
-      - key: TS_STATE_DIR 
+      - key: TS_STATE_DIR
         value: /var/lib/tailscale
-      - key: TS_USERSPACE 
+      - key: TS_USERSPACE
         value: "false"
     volumes:
-      - name: state 
+      - name: state
         destination: /var/lib/tailscale
         source: /config/user-data/tailscale

@@ -18,9 +18,6 @@
 - name: Run vyos prep
   import_playbook: 'vyos_prep.yml'
 
-#- name: Run vyos tailscale setup
-#  import_playbook: 'tailscale_setup.yml'
-
 - name: Run the VyOS role
   hosts: vyos
   become: true
