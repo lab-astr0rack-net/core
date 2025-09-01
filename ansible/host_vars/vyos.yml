@@ -148,10 +148,10 @@ interfaces:
           mac: 1a:12:9d:5c:26:52
           ipv4: 10.100.0.5
         - name: sec660-win
-          mac: 	bc:24:11:8a:69:96
+          mac: bc:24:11:8a:69:96
           ipv4: 10.100.0.6
         - name: gpu-test
-          mac: 	bc:24:11:96:7d:07
+          mac: bc:24:11:96:7d:07
           ipv4: 10.100.0.7
 static_routes:
   - subnet: 0.0.0.0/0
