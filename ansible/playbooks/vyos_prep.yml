@@ -9,17 +9,50 @@
         ansible_connection: ssh
         ansible_user: vyos
 
-    - name: Copy discord notify script
+    - name: Copy pre-init script
       ansible.builtin.template:
-        src: discord-init.sh
+        src: pre-init.sh
         dest: /config/user-data/
         mode: "0755"
 
-    - name: Enable discord notify script
+    - name: Copy init script
+      ansible.builtin.template:
+        src: init.sh
+        dest: /config/user-data/
+        mode: "0755"
+
+    - name: Copy post-init script
+      ansible.builtin.template:
+        src: post-init.sh
+        dest: /config/user-data/
+        mode: "0755"
+
+    - name: Enable pre-iptables script
+      ansible.builtin.lineinfile:
+        path: '/config/scripts/vyos-preconfig-bootup.script'
+        regexp: '^/config/user-data/pre-init.sh'
+        line: '/config/user-data/pre-init.sh &1>/dev/null'
+
+    - name: Enable init script
       ansible.builtin.lineinfile:
         path: '/config/scripts/vyos-postconfig-bootup.script'
-        regexp: '^/config/user-data/discord-init.sh'
-        line: '/config/user-data/discord-init.sh &1>/dev/null'
+        regexp: '^/config/user-data/init.sh'
+        line: '/config/user-data/init.sh &1>/dev/null'
+
+    - name: Enable post-init script
+      ansible.builtin.lineinfile:
+        path: '/config/scripts/vyos-postconfig-bootup.script'
+        regexp: '^sg vyattacfg -c /config/user-data/post-init.sh'
+        line: 'sg vyattacfg -c /config/user-data/post-init.sh &1>/dev/null'
+
+    - name: Create tailscale directory
+      ansible.builtin.file:
+        path: /config/user-data/tailscale
+        state: directory
+        mode: '0775'
+        owner: root
+        group: vyattacfg
+        recurse: true
 
     - name: Create bind9 config directory
       ansible.builtin.file:

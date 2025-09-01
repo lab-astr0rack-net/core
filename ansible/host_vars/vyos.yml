@@ -570,3 +570,29 @@ containers:
       - name: records
         destination: /var/lib/bind
         source: /config/user-data/bind9/records
+  - name: tailscale 
+    image: docker.io/tailscale/tailscale:latest
+    network: allow-host-networks
+    privileged: 'true'
+    uid: '0'
+    devices:
+      - name: tun
+        source: /dev/net/tun
+        destination: /dev/net/tun
+    capabilities:
+      - net-admin
+    environment:
+      - key: TS_AUTHKEY
+        value: "{{ tailscale_auth_key }}"
+      - key: TS_HOSTNAME
+        value: vyos-lab
+      - key: TS_ROUTES
+        value: "10.0.0.0/16,192.168.55.2/32,192.168.55.3/32"
+      - key: TS_STATE_DIR 
+        value: /var/lib/tailscale
+      - key: TS_USERSPACE 
+        value: "false"
+    volumes:
+      - name: state 
+        destination: /var/lib/tailscale
+        source: /config/user-data/tailscale

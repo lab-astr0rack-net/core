@@ -1,8 +1,11 @@
 #!/bin/bash
 
+sudo iptables -P INPUT ACCEPT
+sudo iptables -P FORWARD ACCEPT
+
 while [ -z "$TAILSCALE_STATUS" ]
 do
-	TAILSCALE_STATUS=$(tailscale status | grep vyos | awk '{print $2"  "$1}')
+	TAILSCALE_STATUS=$(sudo podman exec tailscale tailscale status | grep vyos | awk '{print $2"  "$1}')
 	sleep 5
 done
 

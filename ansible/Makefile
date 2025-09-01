@@ -19,6 +19,8 @@ proxmox-tf:
 
 vyos:
 	ansible-playbook playbooks/vyos.yml --tags all
+vyos-manual:
+	ansible-playbook playbooks/vyos.yml --tags all,bw
 vyos-dry-run:
 	ansible-playbook playbooks/vyos.yml --tags dry-run,bw --skip-tags always
 vyos-prep:
