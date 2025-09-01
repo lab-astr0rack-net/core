@@ -5,6 +5,8 @@ services:
     container_name: postgres
     image: docker.io/library/postgres:15
     restart: unless-stopped
+    security_opt:
+    - apparmor:unconfined
     command: >
       -c ssl=on 
       -c ssl_cert_file=/certs/caddy/certificates/acme-v02.api.letsencrypt.org-directory/postgres.lab.astr0rack.net/postgres.lab.astr0rack.net.crt
