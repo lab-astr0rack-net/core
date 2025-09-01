@@ -1,12 +1,12 @@
 name: "Proxmox Ansible Configuration Apply"
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'ansible/roles/proxmox/**'
-      - 'ansible/playbooks/proxmox.yml'
+#  push:
+#    branches:
+#      - main
+#    paths:
+#      - 'ansible/roles/proxmox/**'
+#      - 'ansible/playbooks/proxmox.yml'
   workflow_dispatch:
 
 jobs:
